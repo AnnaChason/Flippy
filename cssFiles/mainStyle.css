@@ -1,0 +1,40 @@
+:root{
+    --bgColor: #CDC0AF;
+    --accentDark: #74AABE;
+    --accentLight: #C6DCE4;
+    --mainText: #393B3B;
+    --slightHighlight: #D8D2C3;
+    --darkBrown: #513A2A;
+}
+
+body{
+    background-color: var(--bgColor);
+    color: var(--mainText);
+    image-rendering: pixelated;
+}
+.center{
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
+div.header{
+    background-color: var(--slightHighlight);
+    padding: 20px;
+}
+
+div.card{
+    height: 400px;
+    width: 800px;
+    background-color: var(--accentLight);
+    border-radius: 30px;
+}
+button.card{
+    background-color: var(--darkBrown);
+    color: var(--slightHighlight);
+    height: 40px;
+    width: 100px;
+    border-radius: 15px;
+    margin-top: 30px;
+    border-color: var(--slightHighlight);
+}
