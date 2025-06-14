@@ -8,7 +8,9 @@
 }
 
 body{
+    background-image: url("../imgs/flippyGrid.png");;
     background-color: var(--bgColor);
+    background-size: 800px;
     color: var(--mainText);
     image-rendering: pixelated;
 }
@@ -24,10 +26,10 @@ div.header{
 }
 
 div.card{
+        width: 800px;
     height: 400px;
-    width: 800px;
-    background-color: var(--accentLight);
-    border-radius: 30px;
+    background-image: url('../imgs/cardFrame.png');
+    background-size: 800px 400px;
 }
 button.card{
     background-color: var(--darkBrown);

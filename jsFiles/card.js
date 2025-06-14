@@ -1,0 +1,1 @@
+/*javascript file for managing flashcard on the home screen */
