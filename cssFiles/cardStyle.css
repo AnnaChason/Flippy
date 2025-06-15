@@ -1,0 +1,32 @@
+/*
+styling for flashcards
+*/
+#idxCard{
+    width: 800px;
+    height: 400px;
+    background-image: url('../imgs/cardFrame.png');
+    background-size: 800px 400px;
+}
+.cardNav button{
+    background-color: var(--darkBrown);
+    color: var(--slightHighlight);
+    height: 40px;
+    width: 80px;
+    border-radius: 15px;
+    margin-top: 30px;
+    border-color: var(--slightHighlight);
+    transform: translateY(-35%); /* pull it up by half its own height to center vertically */
+}
+.cardNav input, img{
+    height: 60px;
+    filter: brightness(0) saturate(100%) invert(22%) sepia(7%) saturate(2535%) hue-rotate(342deg) brightness(95%) contrast(89%);
+}
+.cardNav{
+      display: flex;
+      justify-content: center; /* centers horizontally */
+      align-items: center;     /* centers vertically */
+}
+img{
+    float:left;
+    margin-left:60px;
+}
