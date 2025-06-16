@@ -17,6 +17,7 @@ body{
     color: var(--mainText);
     image-rendering: pixelated;
     font-family:monospace;
+    color: var(--darkBrown);
 }
 .center{
     display: block;
@@ -28,6 +29,23 @@ div.header{
     background-color: var(--slightHighlight);
     padding: 20px;
 }
+h1{
+    font-size: 30px;
+}
+h2{
+    font-size: 20px;
+}
 
 .rotateLeft{ transform: rotate(-90deg);}
 .rotateRight{transform: rotate(90deg);}
+
+button{
+    background-color: var(--darkBrown);
+    color: var(--slightHighlight);
+    height: 40px;
+    width: 80px;
+    border-radius: 15px;
+    margin-top: 30px;
+    border-color: var(--slightHighlight);
+    transform: translateY(-35%); /* pull it up by half its own height to center vertically */
+}

@@ -1,0 +1,33 @@
+.inputs div{
+    margin-bottom: 15px;
+}
+
+input{
+    height: 50px;
+    max-width:1000px;
+    border: none;
+    background:var(--accentLight);
+    background-size:cover;
+    font-size: 20px;
+    font-family: monospace;
+}
+textarea{
+    max-height: 150px;
+    max-width:400px;
+    min-height: 57px;
+    min-width: 200px;
+    border: none;
+    background:var(--accentLight);
+    /*background-image: url('../imgs/cardFrame.png');*/
+    background-size:cover;
+    padding: 5px 10px 5px 10px;
+    font-size: 20px;
+}
+textarea.term{
+    text-align:center;
+    margin-right: 15px;
+}
+
+.inputs h1{/*to do: make number centered with input*/
+    display:inline;
+}
