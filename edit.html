@@ -8,13 +8,13 @@
     <script src="jsFiles/script.js" defer></script>
 
     <link rel="stylesheet" href="cssFiles/editStyle.css">
-    <script src="jsFiles/editCards.js" defer></script>
+    <script type="module" src="jsFiles/editCards.js"></script>
 </head>
 <body>
     <div class="header"><h1 class="center">Flippy</h1></div>
     <!--<div style="height:40px"></div>-->
     
-    <button onClick="updateDeck()">Save</button>
+    <button id="saveBtn">Save</button>
     <a href="index.html"><button>Cancel</button></a>
 
     <input class="center" id="titleInput" type="text" placeholder="Title">

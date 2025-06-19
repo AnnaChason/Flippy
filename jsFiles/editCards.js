@@ -1,6 +1,7 @@
 /*
 js for editing flashcards
 */
+import { supabase } from './supabaseClient.js';
 
 //get elements from screen
 const titleIn = document.getElementById("titleInput");
@@ -8,19 +9,28 @@ const descIn = "";
 const termIns = document.getElementsByClassName("term");
 const defIns = document.getElementsByClassName("def");
 
-//runs when save is pressed
+
+/* saves deck */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('saveBtn').addEventListener('click', updateDeck);
+});
 async function updateDeck(){
     //to do: check if deck has already been made
     const { error } = await supabase
-    .from('Deck')
+    .from('deck')
     .insert(getInput());
 }
 
 //retreive info from form
 function getInput(){
     var cards = [];
+    var offset = 0;//to make sure numvers stay correct if there's a gap in the middle of the form
     for(let i=0; i < termIns.length; i++){
-        cards.push(new Card(i,termIns[i].value, defIns[i].value));
+        if(termIns[i].value != ""){
+            cards.push(new Card(i-offset,termIns[i].value, defIns[i].value));
+        }else{
+            offset ++;
+        }
     }
     const deck = new Deck(titleIn.value, descIn,cards);
     return deck;
