@@ -4,7 +4,6 @@ class Deck{
         this.name = name;
         this.description = description;
         this.cards = cards;
-        this.id =0; /*figure out how to get id from supabase */
     }
 }
 class Card{
