@@ -18,19 +18,25 @@
         <input type="image" src="imgs/cardStack.png">
         <h3 class="center">Change Deck</h3>
     </div>
+    
+    <!--flashcard-->
     <div class="card">
         <h2 id="deckTitleText" class="center">Title</h2>
         
-        <div class="center" id="idxCard"></div>
+        <div class="center" id="idxCard">
+            <p id="cardText">term</p>
+        </div>
 
         <div class="cardNav">
-            <input class="rotateLeft" type="image" src="imgs/Arrow up circle.svg" id="forwardBtn">
+            <input class="rotateLeft" type="image" src="imgs/Arrow up circle.svg" id="backBtn">
             <button id="flipBtn">Flip</button>
-            <input class="rotateRight" type="image" src="imgs/Arrow up circle.svg" id="backBtn">
+            <input class="rotateRight" type="image" src="imgs/Arrow up circle.svg" id="forwardBtn">
         </div>
     </div>
     
     <a href="edit.html"><img src="imgs/pencil2.png"></a>
+    
+    <!--deck selection popup-->
     <div class="backShadow" id="backShadow">
         <div class="popup" id="deckSelectDiv">
             <h2>Select Deck:</h2>

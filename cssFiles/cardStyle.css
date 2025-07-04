@@ -6,6 +6,14 @@ styling for flashcards
     height: 400px;
     background-image: url('../imgs/cardFrame.png');
     background-size: 800px 400px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+#cardText{
+    font-size:30px;
 }
 .cardNav button{
     background-color: var(--darkBrown);
