@@ -9,6 +9,8 @@ card navigation management
 */
     var currentCard = 0;
     var cards = null;
+    const cardIdxText = document.getElementById("cardIdx");
+    const deckLength = document.getElementById("deckLength");
 
     document.getElementById('flipBtn').addEventListener('click', flipCard);
     document.getElementById('forwardBtn').addEventListener('click', forward);
@@ -31,8 +33,15 @@ card navigation management
     }
 
     function forward(){
-        console.log(cards);
         currentCard ++;
+        if(currentCard < 0){
+            currentCard = cards.length-1;
+        }
+        if(currentCard >= cards.length){
+            currentCard = 0;
+        }
+        cardIdxText.innerHTML=currentCard+1;
+
         if(flipped){
             card.style.backgroundImage = `url(imgs/cardFrame.png)`;
             flipped = false;
@@ -41,8 +50,15 @@ card navigation management
             cardTxt.innerText=cards[currentCard].term;
     }
     function back(){
-        console.log(cards);
         currentCard --;
+        if(currentCard < 0){
+            currentCard = cards.length-1;
+        }
+        if(currentCard >= cards.length){
+            currentCard = 0;
+        }
+        cardIdxText.innerHTML=currentCard+1;
+        
         if(flipped){
             card.style.backgroundImage = `url(imgs/cardFrame.png)`;
             flipped = false;
@@ -63,8 +79,11 @@ loads card data
 
         titleTxt.innerText=deck.data[0].name;
         cards = deck.data[0].cards;
-        console.log(cards);
         cardTxt.innerText = cards[0].term;
+        
+        currentCard = 0;
+        cardIdxText.innerText = 1;
+        deckLength.innerText = cards.length;
     }
 
 /*
