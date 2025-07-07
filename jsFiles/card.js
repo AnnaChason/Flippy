@@ -3,6 +3,8 @@ import {supabase} from '../jsFiles/supabaseClient.js';
 
 const titleTxt = document.getElementById("deckTitleText");
 const cardTxt = document.getElementById("cardText");
+const rightBtn = document.getElementById("right");
+const wrongBtn = document.getElementById("wrong");
 
 /* 
 card navigation management
@@ -21,10 +23,16 @@ card navigation management
     function flipCard(){
         console.log(cards);
         if(flipped){//going to front
+            rightBtn.style.display="none";
+            wrongBtn.style.display="none";
+
             card.style.backgroundImage = `url(imgs/cardFrame.png)`;
             if(cards != null)
                 cardTxt.innerText=cards[currentCard].term;
         }else{//going to back
+            rightBtn.style.display="block";
+            wrongBtn.style.display="block";
+
             card.style.backgroundImage = `url(imgs/cardFrameBack.png)`;
             if(cards != null && currentCard < cards.length)
                 cardTxt.innerText=cards[currentCard].definition;
@@ -33,6 +41,9 @@ card navigation management
     }
 
     function forward(){
+        rightBtn.style.display="none";
+        wrongBtn.style.display="none";
+
         currentCard ++;
         if(currentCard < 0){
             currentCard = cards.length-1;
@@ -50,6 +61,9 @@ card navigation management
             cardTxt.innerText=cards[currentCard].term;
     }
     function back(){
+        rightBtn.style.display="none";
+        wrongBtn.style.display="none";
+
         currentCard --;
         if(currentCard < 0){
             currentCard = cards.length-1;
@@ -120,6 +134,29 @@ manages the deck selection popup
         }
     }
 
+/*
+tracks correctness
+*/
+    //to do: put this in db
+    const correctness = new Map();
+
+    rightBtn.addEventListener('click',right);
+    wrongBtn.addEventListener('click',wrong);
+
+    function right(){
+        const currCardId = cards[currentCard].num;
+        correctness.set(currCardId,true);
+        
+        //to do: find a way to keep track of average
+        if(correctness.has(currCardId)){
+            
+        }
+    }
+    function wrong(){
+        const currCardId = cards[currentCard].num;
+        correctness.set(currCardId,false);
+        console.log(correctness);
+    }
 
 
 
