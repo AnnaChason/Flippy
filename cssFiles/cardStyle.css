@@ -14,6 +14,8 @@ styling for flashcards
 }
 #cardText{
     font-size:30px;
+    margin-right:10px;
+    margin-left:10px;
 }
 .cardNav button{
     background-color: var(--darkBrown);
@@ -48,17 +50,18 @@ div.iconBtn{
 div.iconBtn input{
     height:60px;
 }
-input.correctness{
-    height:50px;
-    position: absolute;
-    display: none;
-}
-#right{
-    transform: translate(-30px,150px);
-}
-#wrong{
-    transform: translate(30px,150px);
-}
+/*styling for check and x buttons*/
+    input.correctness{
+        height:50px;
+        position: absolute;
+        display: none;
+    }
+    #right{
+        transform: translate(-30px,150px);
+    }
+    #wrong{
+        transform: translate(30px,150px);
+    }
 
 
 /*popup card selection*/

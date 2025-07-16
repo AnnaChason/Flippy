@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Quizlet Upload</title>
+    <link rel="stylesheet" href="cssFiles/mainStyle.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="jsFiles/script.js" defer></script>
+
+    <link rel="stylesheet" href="cssFiles/editStyle.css">
+    <script type="module" src="jsFiles/upload.js"></script>
+</head>
+<body>
+     <div class="header"><h1 class="center">Flippy</h1></div>
+    <!--<div style="height:40px"></div>-->
+    
+    <button id="saveBtn">Save</button>
+    <a href="index.html"><button>Cancel</button></a>
+
+    <a href="edit.html"><button style="float:right;">Back</button></a><!--slightly higher than other buttons, no idea why. fix later-->
+
+    <input class="center" id="titleInput" type="text" placeholder="Deck Title">
+    <div style="height:15px"></div>
+        
+    <div class="inputs">
+        <div class="center">
+            
+            <textarea class="upload" id="uploadBox" rows="2" cols="30" placeholder="Paste quizlet export here. Be sure comma and semicolon are selected."></textarea>
+           
+        </div>
+    </div>
+</body>
+</html>

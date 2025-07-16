@@ -31,3 +31,11 @@ textarea.term{
 .inputs h1{/*to do: make number centered with input*/
     display:inline;
 }
+
+/*for quizlet upload textbox*/
+textarea.upload{
+    max-height: 500px;
+    max-width:800px;
+    min-height: 500px;
+    min-width: 700px;
+}
