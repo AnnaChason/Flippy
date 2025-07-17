@@ -87,6 +87,9 @@ manages different ways to study the flashcards
 */
     //in order
     class InOrder{
+        constructor(){
+            this.name = "In the original order";
+        }
         onSelect(){
             //to do: return cards to og order
         }
@@ -102,6 +105,9 @@ manages different ways to study the flashcards
     }
     //random order
     class RandOrder{
+        constructor(){
+            this.name = "In a random order";
+        }
         onSelect(){
             randomizeOrder();
         }
@@ -118,11 +124,15 @@ manages different ways to study the flashcards
     }
     //dynamic study
     class Dynamic{
+        constructor(){
+            this.name = "With dynamic study";
+        }
         onSelect(){
             randomizeOrder();
         }
         flip(){
           const front = flipCard();  
+          console.log(front);
           if(front){
             rightBtn.style.display="none";
             wrongBtn.style.display="none";
@@ -144,11 +154,17 @@ manages different ways to study the flashcards
         }
     }
 
-    var strat = new RandOrder();
-
-    document.getElementById('flipBtn').addEventListener('click', strat.flip);
-    document.getElementById('forwardBtn').addEventListener('click', strat.next);
-    document.getElementById('backBtn').addEventListener('click', strat.prev);
+    const stratList = [new InOrder(), new RandOrder(), new Dynamic()];
+    var strat = selectStrat(0);
+    
+    function selectStrat(idx){
+        strat = stratList[idx]
+        console.log(strat.name);
+        document.getElementById('flipBtn').onclick = strat.flip;
+        document.getElementById('forwardBtn').onclick = strat.next;
+        document.getElementById('backBtn').onclick = strat.prev;
+        strat.onSelect();
+    }
 /*
 loads card data
 */
@@ -191,11 +207,13 @@ manages the deck selection popup
 */
     const popupdiv = document.getElementById("deckSelectDiv");
     const backShadow = document.getElementById("backShadow");
+    const popupHead = document.getElementById("popupHead");
 
     //load popup
     document.getElementById("deckSelectBtn").addEventListener('click', ()=>{ 
         popupdiv.style.display="block"; 
         backShadow.style.display="block"; 
+        popupHead.innerText="Select A Deck:";
         loadTitles();
     });
     document.getElementById("closePopup").addEventListener('click', ()=>{ 
@@ -236,7 +254,41 @@ manages the deck selection popup
     }
 
 /*
-tracks correctness
+study strategy selection popup
+*/
+    document.getElementById("settingsBtn").addEventListener('click', ()=>{ 
+        popupdiv.style.display="block"; 
+        backShadow.style.display="block"; 
+        popupHead.innerText="How would you like to study?";
+        loadStrats();
+        
+    });
+
+    //populates popup with strategy options
+    function loadStrats(){
+        for(let i = 0; i < stratList.length; i++){
+            var row = document.createElement("div");
+            var text = document.createElement("p");
+            text.innerText = stratList[i].name;
+            row.appendChild(text);
+
+            row.addEventListener("click", ()=>{ 
+                
+                popupdiv.style.display="none"; 
+                backShadow.style.display="none"; 
+                //remove rows so it decks don't end up loaded twice later
+                let rows = popupdiv.querySelectorAll("div");
+                rows.forEach(div => {
+                    div.remove();
+                });
+                selectStrat(i);
+            });
+            popupdiv.appendChild(row);
+        }
+    }
+
+/*
+tracks correctness work in progress, maybe replacing
 */
     //to do: put this in db
     const correctness = new Map();

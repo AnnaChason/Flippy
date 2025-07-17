@@ -50,6 +50,14 @@ div.iconBtn{
 div.iconBtn input{
     height:60px;
 }
+#pencilBtn{
+    transform:translateY(-75px);
+}
+#settingsBtn{
+    position: absolute;
+    float:left;
+    transform: translateX(-57px)
+}
 /*styling for check and x buttons*/
     input.correctness{
         height:50px;
