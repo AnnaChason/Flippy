@@ -196,7 +196,17 @@ manages the deck selection popup
     document.getElementById("deckSelectBtn").addEventListener('click', ()=>{ 
         popupdiv.style.display="block"; 
         backShadow.style.display="block"; 
-        loadTitles()
+        loadTitles();
+    });
+    document.getElementById("closePopup").addEventListener('click', ()=>{ 
+        popupdiv.style.display="none"; 
+        backShadow.style.display="none"; 
+        
+        //remove rows so it decks don't end up loaded twice later
+        let rows = popupdiv.querySelectorAll("div");
+        rows.forEach(div => {
+            div.remove();
+        });
     });
 
     //load deck option titles
@@ -214,6 +224,11 @@ manages the deck selection popup
             row.addEventListener("click", ()=>{ 
                 popupdiv.style.display="none"; 
                 backShadow.style.display="none"; 
+                //remove rows so it decks don't end up loaded twice later
+                let rows = popupdiv.querySelectorAll("div");
+                rows.forEach(div => {
+                    div.remove();
+                });
                 loadDeck(titles.data[i].id);
             });
             popupdiv.appendChild(row);
