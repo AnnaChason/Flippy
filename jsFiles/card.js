@@ -209,6 +209,14 @@ manages the deck selection popup
     const backShadow = document.getElementById("backShadow");
     const popupHead = document.getElementById("popupHead");
 
+    //remove rows so it decks don't end up loaded twice later
+    function removeRows(){
+        let rows = popupdiv.querySelectorAll("div");
+        rows.forEach(div => {
+            div.remove();
+        });
+    }
+
     //load popup
     document.getElementById("deckSelectBtn").addEventListener('click', ()=>{ 
         popupdiv.style.display="block"; 
@@ -220,11 +228,7 @@ manages the deck selection popup
         popupdiv.style.display="none"; 
         backShadow.style.display="none"; 
         
-        //remove rows so it decks don't end up loaded twice later
-        let rows = popupdiv.querySelectorAll("div");
-        rows.forEach(div => {
-            div.remove();
-        });
+        removeRows();
     });
 
     //load deck option titles
@@ -242,11 +246,7 @@ manages the deck selection popup
             row.addEventListener("click", ()=>{ 
                 popupdiv.style.display="none"; 
                 backShadow.style.display="none"; 
-                //remove rows so it decks don't end up loaded twice later
-                let rows = popupdiv.querySelectorAll("div");
-                rows.forEach(div => {
-                    div.remove();
-                });
+                removeRows();
                 loadDeck(titles.data[i].id);
             });
             popupdiv.appendChild(row);
@@ -276,11 +276,7 @@ study strategy selection popup
                 
                 popupdiv.style.display="none"; 
                 backShadow.style.display="none"; 
-                //remove rows so it decks don't end up loaded twice later
-                let rows = popupdiv.querySelectorAll("div");
-                rows.forEach(div => {
-                    div.remove();
-                });
+                removeRows();
                 selectStrat(i);
             });
             popupdiv.appendChild(row);
