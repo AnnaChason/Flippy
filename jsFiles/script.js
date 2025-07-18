@@ -11,5 +11,6 @@ class Card{
         this.num = num;
         this.term = term;
         this.definition = definition;
+        this.score = 5;
     }
 }

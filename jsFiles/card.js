@@ -80,7 +80,10 @@ manages different ways to study the flashcards
             randomized.push(cards.splice(rmIdx,1)[0]);
         }
         cards = [...randomized];
-        console.log(cards);
+        currentCard = 0;
+        cardTxt.innerText = cards[0].term;
+        card.style.backgroundImage = `url(imgs/cardFrame.png)`;
+        cardIdxText.innerHTML=currentCard+1;
     }
 /*
     strategies: 
@@ -126,31 +129,107 @@ manages different ways to study the flashcards
     class Dynamic{
         constructor(){
             this.name = "With dynamic study";
+            //mastery groups: (to be treated as queues)
+            this.struggle = [];
+            this.main = [];
+            this.knowCount = 0;
+            this.front = true;
+            this.cycleIdx = 0;//how many cards from the main group have gone by, after 3 resets to 0 and a struggle card is shown
         }
+        //helper methods 
+        updatePlacement(correct, car){
+            if(correct && correct != "none"){
+                car.score += 1;
+            }
+            else if (car.score > 0 && correct != "none"){
+                car.score -= 1;
+            }
+            if(car.score < 5){
+                this.struggle.push(car);
+            }
+            else if(car.score < 10){
+                this.main.push(car);
+            }
+            else{
+                this.knowCount ++;
+            }
+        }
+        showCard(strictFront){
+            cardIdxText.innerHTML="??";//idk figure this out later
+            card.style.backgroundImage = `url(imgs/cardFrame.png)`;
+            if(!this.front || strictFront){
+                rightBtn.style.display="none";
+                wrongBtn.style.display="none";
+                cardTxt.innerText=this.currCar.term;
+                this.front = true;
+            }
+            else{
+                rightBtn.style.display="block";
+                wrongBtn.style.display="block";
+                card.style.backgroundImage = `url(imgs/cardFrameBack.png)`;
+
+                cardTxt.innerText=this.currCar.definition;
+                this.front = false;
+            }
+        }
+
+        //public methods
         onSelect(){
             randomizeOrder();
+            this.knowCount = 0;
+            this.struggle = [];
+            this.main = [];
+            for(let i = 0; i < cards.length; i++){
+                if(cards[i].score == undefined){
+                    cards[i].score = 5;
+                    this.main.push(cards[i]);
+                }
+                else
+                    this.updatePlacement("none", cards[i]);
+            }
+            this.currCar = this.main.shift();
+            this.showCard(true);
         }
         flip(){
-          const front = flipCard();  
-          console.log(front);
-          if(front){
-            rightBtn.style.display="none";
-            wrongBtn.style.display="none";
-          }
-          else{
-            rightBtn.style.display="block";
-            wrongBtn.style.display="block";
-          }
+          this.showCard(false);
+          
         }
-        next(){//correct
-            rightBtn.style.display="none";
-            wrongBtn.style.display="none";
-            forward();
+        next(){
+            //if run out of cards in main and have some left in struggle, add to the score of struggle until half of them are in main.
+            //should probably come up with a better way to handle this later.
+            if(this.main.length == 0){
+                //should do some message
+                if(this.struggle.length > 0){
+                    while(this.main.length < Math.floor(this.struggle.length/2)){
+                        for(let i = 0; i< this.struggle.length; i ++){
+                            this.updatePlacement(true,this.struggle[i]);
+                        }
+                    }
+                }
+                else{
+                    //restart?
+                    for(let i = 0; i<cards.length; i++){
+                        cards[i].score = 5;
+                        this.main.push(cards[i]);
+                    }
+                }
+            }
+            if(this.cycleIdx < 3 || this.struggle.length <= 0){
+                this.currCar = this.main.shift();
+                this.showCard(true); 
+                this.cycleIdx++;
+            }
+            else{
+                this.currCar = this.struggle.shift();
+                this.showCard(true); 
+                this.cycleIdx = 0;
+            }
         }
-        prev(){//incorrect
+        prev(){//to do: figure out if this should be an option and if so how it should change the score
             rightBtn.style.display="none";
             wrongBtn.style.display="none";
-            back();
+            this.showCard(true);
+            //back();
         }
     }
 
@@ -160,9 +239,9 @@ manages different ways to study the flashcards
     function selectStrat(idx){
         strat = stratList[idx]
         console.log(strat.name);
-        document.getElementById('flipBtn').onclick = strat.flip;
-        document.getElementById('forwardBtn').onclick = strat.next;
-        document.getElementById('backBtn').onclick = strat.prev;
+        document.getElementById('flipBtn').onclick = strat.flip.bind(strat);
+        document.getElementById('forwardBtn').onclick = strat.next.bind(strat);
+        document.getElementById('backBtn').onclick = strat.prev.bind(strat);
         strat.onSelect();
     }
 /*
@@ -282,30 +361,5 @@ study strategy selection popup
             popupdiv.appendChild(row);
         }
     }
-
-/*
-tracks correctness work in progress, maybe replacing
-*/
-    //to do: put this in db
-    const correctness = new Map();
-
-    rightBtn.addEventListener('click',right);
-    wrongBtn.addEventListener('click',wrong);
-
-    function right(){
-        const currCardId = cards[currentCard].num;
-        correctness.set(currCardId,true);
-        
-        //to do: find a way to keep track of average
-        if(correctness.has(currCardId)){
-            
-        }
-    }
-    function wrong(){
-        const currCardId = cards[currentCard].num;
-        correctness.set(currCardId,false);
-        console.log(correctness);
-    }
-
 
 
