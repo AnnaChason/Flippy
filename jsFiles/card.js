@@ -95,6 +95,7 @@ manages different ways to study the flashcards
         }
         onSelect(){
             //to do: return cards to og order
+            //does js have comparator/ built in sort? if not write a merge sort?
         }
         flip(){
           flipCard();  
@@ -136,7 +137,18 @@ manages different ways to study the flashcards
             this.front = true;
             this.cycleIdx = 0;//how many cards from the main group have gone by, after 3 resets to 0 and a struggle card is shown
         }
-        //helper methods 
+        /*
+            helper methods
+        */ 
+        showProgress(){
+            document.getElementById("struggleCountTxt").innerText = this.struggle.length;
+            document.getElementById("mainCountTxt").innerText = this.main.length;
+            document.getElementById("knowCountTxt").innerText = this.knowCount;
+        }
+
+        /*updates the score of card car based on if it is correct or not 
+        (none is alternate option to help with getting to the end of the main list)
+        then places car in correct bucket based on score*/
         updatePlacement(correct, car){
             if(correct && correct != "none"){
                 car.score += 1;
@@ -153,6 +165,8 @@ manages different ways to study the flashcards
             else{
                 this.knowCount ++;
             }
+
+            this.showProgress();
         }
         showCard(strictFront){
             cardIdxText.innerHTML="??";//idk figure this out later
@@ -173,9 +187,22 @@ manages different ways to study the flashcards
             }
         }
 
-        //public methods
+        /*
+            public methods
+        */
         onSelect(){
             randomizeOrder();
+
+            //connect to right/wrong buttons. (does this work when they are hidden?)
+            document.getElementById('right').onclick = (() =>{
+                this.updatePlacement(this.currCar,true);
+                this.next();
+            });
+            document.getElementById('wrong').onclick = (() =>{
+                this.updatePlacement(this.currCar, false);
+                this.next();
+            });
+
             this.knowCount = 0;
             this.struggle = [];
             this.main = [];

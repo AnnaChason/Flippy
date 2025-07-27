@@ -71,6 +71,14 @@ div.iconBtn input{
         transform: translate(30px,150px);
     }
 
+#studyProgress{
+    display:"none";
+    background: var(--slightHighlight);
+    float: right;
+    padding: 10px;
+    margin-right: 10px;
+}
+
 
 /*popup card selection*/
     div.popup{

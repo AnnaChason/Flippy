@@ -1,0 +1,21 @@
+/*is this how you access div inside div of class form?*/
+div.form{
+    display: block;
+    margin: auto;
+    background-color: var(--accentLight);
+}
+.form div{
+    height: 150px;
+    width:400px;
+    border: none;
+    background:var(--accentLight);
+    background-size:cover;
+    padding: 5px 10px 5px 10px;
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+img{
+    height:100px;
+    border: 50%;
+}
