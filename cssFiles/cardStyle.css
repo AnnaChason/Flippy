@@ -1,84 +1,162 @@
 /*
-styling for flashcards
+styling for flashcard study page
 */
-#idxCard{
-    width: 800px;
-    height: 400px;
-    background-image: url('../imgs/cardFrame.png');
-    background-size: 800px 400px;
-
-    display: flex;
-    justify-content: center;
+body{
+    display:flex;
+    flex-direction: column;
     align-items: center;
-    text-align: center;
+    height:100vh;
+    overflow: hidden;
 }
-#cardText{
-    font-size:30px;
-    margin-right:10px;
-    margin-left:10px;
-}
-.cardNav button{
-    background-color: var(--darkBrown);
-    color: var(--slightHighlight);
-    height: 40px;
-    width: 80px;
-    border-radius: 15px;
-    margin-top: 30px;
-    border-color: var(--slightHighlight);
-    transform: translateY(-35%); /* pull it up by half its own height to center vertically */
-}
-.cardNav input, img{
-    height: 60px;
-    filter: brightness(0) saturate(100%) invert(22%) sepia(7%) saturate(2535%) hue-rotate(342deg) brightness(95%) contrast(89%);
-}
-.cardNav{
-      display: flex;
-      justify-content: center; /* centers horizontally */
-      align-items: center;     /* centers vertically */
-}
-img{
-    float:left;
-    margin-left:10px;
-}
-#deckTitleText{
-    margin-bottom: 10px;
-}
-div.iconBtn{
-    position:absolute;
-    float:left;
-}
-div.iconBtn input{
-    height:60px;
-}
-#pencilBtn{
-    transform:translateY(-75px);
-}
-#settingsBtn{
-    position: absolute;
-    float:left;
-    transform: translateX(-57px)
-}
-/*styling for check and x buttons*/
-    input.correctness{
-        height:50px;
+/*flash card styling*/
+    .cardBorder{
+        width: 55%;
+        height: 55%;
+
+        margin-top:50px;
+
+        border-radius: 100px;
+        border: 3px solid;
+        border-color: #513a2a;
+        box-shadow: inset 0px 4px 4px #00000040;
+    }
+    #idxCard{
+        position: relative;
+        width: 95%;
+        height: 93%;
+        margin:auto;
+        top:3%;
+        
+        border-radius: 100px;
+        background-color: var(--accentLight);
+        box-shadow: 0px 5px 5px #00000040;
+        text-align: center;
+
+        display:flex;
+        flex-direction: column;
+    }
+    .cardBorder p{
+        margin:auto;
+        margin-right: 10px;
+        margin-left: 10px;
+        font-size: 25px;
+    }
+
+/*card nav stuff*/
+    div.navFrame{
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items:center;
+        margin-top:15px;
+    }
+    .navFrame img{
+        height:80px;
+    }
+    #flipBtn{
+        font-size: 30px;
+    }
+
+/*menu
+to do: make smaller and more responsive
+*/
+
+    div.menu{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        width: 160px;
+        
+        gap: 65px;
+        padding: 16px 2px;
+
         position: absolute;
-        display: none;
-    }
-    #right{
-        transform: translate(-30px,150px);
-    }
-    #wrong{
-        transform: translate(30px,150px);
+        right:5px;
+        margin-top:100px;
+
+        background-color: #d8d2c3;
+        border-radius: 8px;
+        border: 3px solid;
+        border-color: #513a2a;
+        box-shadow: 0px 4px 4px #00000040;
     }
 
-#studyProgress{
-    display:"none";
-    background: var(--slightHighlight);
-    float: right;
-    padding: 10px;
-    margin-right: 10px;
-}
+    .overlap-group {
+        position: absolute;
+        width: 135px;
+        height: 84px;
+        top: 17px;
+        left: 18px;
+    }
+    #deckSelectBtn {
+        position: relative;
+        width: 161.21px;
+        height: 128.97px;
+    }
 
+    div.rect2 {
+        position: absolute;
+        width: 124px;
+        height: 74px;
+        top: 10px;
+        left: 11px;
+        background-color: var(--accentLight);
+        border-radius: 20.15px;
+        box-shadow: 0px 3.22px 3.22px #00000040;
+    }
+
+    div.rect1 {
+        position: absolute;
+        width: 124px;
+        height: 74px;
+        top: 0;
+        left: 0;
+        background-color: var(--accentDark);
+        border-radius: 20.15px;
+        box-shadow: 0px 3.22px 3.22px #00000040;
+    }
+
+    .text-wrapper-2 {
+        position: absolute;
+        top: 106px;
+        left: 19px;
+        font-weight: 400;
+        color: var(--brown);
+        font-size: 19.3px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+/*progress menu*/
+    div.progress{
+    width: 236px;
+    padding:5px;
+
+    position: absolute;
+    top: calc(50% - 140px);
+    left:5px;
+    
+    background-color: #d8d2c3;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 3px solid;
+    border-color: #513a2a;
+    box-shadow: 0px 4px 4px #00000040;
+    }
+    .progress h1{
+        text-align: center;
+        text-shadow: 0px 1px 1px #00000040;
+        font-size: 25px;
+    }
+    #deckTitleText{
+        text-align: center;
+        color: var(--accentDark);
+        text-shadow: 0px 1px 1px #00000040;
+    }
+    .accuracy{
+        display:none;
+    }
 
 /*popup card selection*/
     div.popup{

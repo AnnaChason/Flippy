@@ -39,3 +39,8 @@ textarea.upload{
     min-height: 500px;
     min-width: 700px;
 }
+
+.button{
+    margin-top: 10px;
+    font-size: 20px;
+}
