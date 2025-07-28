@@ -52,6 +52,11 @@ body{
     }
     .navFrame img{
         height:80px;
+        cursor: pointer;
+    }
+    .navFrame img:hover{
+        filter: brightness(.3) sepia(1) hue-rotate(135deg) saturate(100);
+        cursor: pointer;
     }
     #flipBtn{
         font-size: 30px;
@@ -90,11 +95,24 @@ to do: make smaller and more responsive
     }
     .menu img{
         height: 40%;
+        cursor: pointer;
+    }
+    .menu img:hover{
+        filter: brightness(.3) sepia(1) hue-rotate(135deg) saturate(100);
     }
     .overlap-group {
         position: relative;
         height:80px;
     }
+    .overlap-group:hover .rect2{
+        cursor: pointer;
+         background-color: var(--accentDark);
+    }
+    .overlap-group:hover .rect1{
+        cursor: pointer;
+         background-color: var(--accentLight);
+    }
+
 
     div.rect2 {
         width: 124px;
