@@ -22,15 +22,17 @@ loadRecentDeck();
 /*
 manages different ways to study the flashcards
 */
+const accentLight = getComputedStyle(document.documentElement).getPropertyValue('--accentLight').trim();
+const accentDark = getComputedStyle(document.documentElement).getPropertyValue('--accentDark').trim();
 // shared
     var flipped = false;
     function flipCard(){
         if(flipped){//going to front
-            card.style.backgroundImage = `url(imgs/cardFrame.png)`;
+            card.style.backgroundColor= accentLight;
             if(cards != null)
                 cardTxt.innerText=cards[currentCard].term;
         }else{//going to back
-            card.style.backgroundImage = `url(imgs/cardFrameBack.png)`;
+            card.style.backgroundColor= accentDark;
             if(cards != null && currentCard < cards.length)
                 cardTxt.innerText=cards[currentCard].definition;
         }
@@ -49,7 +51,7 @@ manages different ways to study the flashcards
         cardIdxText.innerHTML=currentCard+1;
 
         if(flipped){
-            card.style.backgroundImage = `url(imgs/cardFrame.png)`;
+            card.style.backgroundColor= accentLight;
             flipped = false;
         }
         if(cards != null)

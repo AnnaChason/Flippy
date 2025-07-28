@@ -13,17 +13,19 @@
 <body>
     <div class="header"><h1 class="center">Flippy</h1></div>
 
-    <div class="cardBorder"><div id="idxCard"></div></div>
+    <div class="cardBorder">
+        <div id="idxCard"><p id="cardText">term</p></div>
+    </div>
 
     <div class="navFrame">
-        <img id="arrowPrev" class="icon" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-left-circle.svg" />
+        <img id="backBtn" class="icon" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-left-circle.svg" />
         <div class="button" id="flipBtn">Flip</div>
-        <img id="arrowNext" class="icon" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-right-circle.svg" />
+        <img id="forwardBtn" class="icon" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-right-circle.svg" />
         
     </div>
 
      <div class="menu">
-            <div class="deckSelectBtn">
+            <div id="deckSelectBtn">
               <div class="overlap-group">
                 <div class="rect1"></div>
                 <div class="rect2"></div>
@@ -32,13 +34,13 @@
             </div>
 
             <a href="edit.html"><img class="editBtn" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/edit-3.svg" /></a>
-            <img class="settingsBtn" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/settings.svg" />
+            <img id="settingsBtn" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/settings.svg" />
      </div>
 
      <div class="progress">
         <h1>Progress</h2>
         <h3>Currently Studying:</h3>
-        <h2 id="deckName">DeckName</h2>
+        <h2 id="deckTitleText">DeckName</h2>
         <h3 class="center" id="deckIdxTxt"><span id="cardIdx">current</span>/<span id="deckLength">length</span></h3>
 
         <div class="accuracy">
@@ -51,7 +53,7 @@
      <!--Popup Menu-->
     <div class="backShadow" id="backShadow">
         <div class="popup" id="deckSelectDiv">
-            <input type="image" id="closePopup" style="width:45px; float:right" src="imgs/xIcon.png">
+            <input type="image" id="closePopup" style="width:45px; float:right" src="https://c.animaapp.com/mdmdvct2pyJyE5/img/x.svg">
             <h2 id="popupHead">Select Deck:</h2>
         </div>
     </div>
