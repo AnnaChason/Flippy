@@ -65,15 +65,17 @@ to do: make smaller and more responsive
         display: flex;
         flex-direction: column;
         align-items: center;
+        overflow:hidden;
 
-        width: 160px;
+        width: 10%;
         
-        gap: 65px;
+        gap: 50px;
         padding: 16px 2px;
 
         position: absolute;
         right:5px;
         margin-top:100px;
+        
 
         background-color: #d8d2c3;
         border-radius: 8px;
@@ -81,56 +83,46 @@ to do: make smaller and more responsive
         border-color: #513a2a;
         box-shadow: 0px 4px 4px #00000040;
     }
-
-    .overlap-group {
-        position: absolute;
-        width: 135px;
-        height: 84px;
-        top: 17px;
-        left: 18px;
+    .menu div{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
     }
-    #deckSelectBtn {
+    .menu img{
+        height: 40%;
+    }
+    .overlap-group {
         position: relative;
-        width: 161.21px;
-        height: 128.97px;
+        height:80px;
     }
 
     div.rect2 {
-        position: absolute;
         width: 124px;
         height: 74px;
-        top: 10px;
-        left: 11px;
+        margin-top: -60px;
+        transform: translateX(3px);
+        z-index:100;
+        /*transform: translate(10px,-60px);*/
+
         background-color: var(--accentLight);
         border-radius: 20.15px;
         box-shadow: 0px 3.22px 3.22px #00000040;
     }
 
     div.rect1 {
-        position: absolute;
         width: 124px;
         height: 74px;
-        top: 0;
-        left: 0;
+        transform: translate(-3px,0px);
+
         background-color: var(--accentDark);
         border-radius: 20.15px;
         box-shadow: 0px 3.22px 3.22px #00000040;
     }
 
-    .text-wrapper-2 {
-        position: absolute;
-        top: 106px;
-        left: 19px;
-        font-weight: 400;
-        color: var(--brown);
-        font-size: 19.3px;
-        letter-spacing: 0;
-        line-height: normal;
-        white-space: nowrap;
-    }
+
 /*progress menu*/
     div.progress{
-    width: 236px;
+    width: 20%;
     padding:5px;
 
     position: absolute;

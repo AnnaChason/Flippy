@@ -26,21 +26,28 @@
 
      <div class="menu">
             <div id="deckSelectBtn">
-              <div class="overlap-group">
-                <div class="rect1"></div>
-                <div class="rect2"></div>
-              </div>
-              <div class="text-wrapper-2">Change Deck</div>
+                <div class="overlap-group">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                </div>
+                <h3 class="center" style="margin-top:5px">Change Deck</h3>
             </div>
-
-            <a href="edit.html"><img class="editBtn" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/edit-3.svg" /></a>
-            <img id="settingsBtn" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/settings.svg" />
+            <div>
+                <a href="edit.html"><img class="editBtn" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/edit-3.svg" /></a>
+                <h3>Edit Deck</h3>
+            </div>
+            <div>
+                <img id="settingsBtn" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/settings.svg" />
+                <h3 class="center">Change Study <br>Mode</h3>
+            </div>
+            
      </div>
 
      <div class="progress">
         <h1>Progress</h2>
         <h3>Currently Studying:</h3>
         <h2 id="deckTitleText">DeckName</h2>
+        <h3>Study Mode: <span id="studyStratTxt">placeholder</span></h3>
         <h3 class="center" id="idxTxtHolder"><span id="cardIdx">current</span>/<span id="deckLength">length</span></h3>
 
         <div class="accuracy" id="dpd"> <!--(dynamic progress display)-->
