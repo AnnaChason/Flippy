@@ -13,6 +13,9 @@ div.form{
     padding: 5px 10px 5px 10px;
     font-size: 30px;
     margin-bottom: 15px;
+    display:flex;
+    flex-direction: row;
+    align-content: center;
 }
 
 img{
