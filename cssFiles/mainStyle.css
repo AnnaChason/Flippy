@@ -37,13 +37,21 @@ h2{
     font-size: 20px;
 }
 
-button{
-    background-color: var(--darkBrown);
-    color: var(--slightHighlight);
-    height: 40px;
-    width: 80px;
-    border-radius: 15px;
-    margin-top: 30px;
-    border-color: var(--slightHighlight);
-    transform: translateY(-35%); /* pull it up by half its own height to center vertically */
-}
+/*button stuff!*/
+    .button{
+        padding: 15px 25px;
+        background-color: var(--accentDark);
+        border-radius: 20px;
+        box-shadow: 0px 4px 4px #00000040;
+        font-size: 20px;
+        color: var(--bgColor);
+        border:none;
+    }
+    .button.hover{
+        background-color: var(--darkBrown);
+    }
+    .button.pressed{
+        background-color: var(--accentLight);
+    }
+
+

@@ -9,8 +9,8 @@ body{
     overflow: hidden;
 }
 .cardBorder{
-    width: 60%;
-    height: 60%;
+    width: 55%;
+    height: 55%;
 
     margin-top:50px;
 
@@ -21,10 +21,10 @@ body{
 }
 #idxCard{
     position: relative;
-    width: 90%;
-    height: 90%;
+    width: 95%;
+    height: 93%;
     margin:auto;
-    top:5%;
+    top:3%;
     
     border-radius: 100px;
     background-color: var(--accentLight);
@@ -43,13 +43,7 @@ body{
         height:80px;
     }
     #flipBtn{
-        padding: 15px 25px;
-        background-color: #74aabe;
-        border-radius: 20px;
-        box-shadow: 0px 4px 4px #00000040;
-        
         font-size: 30px;
-        color: var(--bgColor);
     }
 
 /*menu
@@ -125,31 +119,65 @@ to do: make smaller and more responsive
         white-space: nowrap;
     }
 /*progress menu*/
-div.progress{
-  width: 236px;
-  padding:5px;
+    div.progress{
+    width: 236px;
+    padding:5px;
 
-  position: absolute;
-  top: calc(50% - 140px);
-  left:5px;
-  
-  background-color: #d8d2c3;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 3px solid;
-  border-color: #513a2a;
-  box-shadow: 0px 4px 4px #00000040;
-}
-.progress h1{
-    text-align: center;
-    text-shadow: 0px 1px 1px #00000040;
-    font-size: 25px;
-}
-#deckName{
-    text-align: center;
-    color: var(--accentDark);
-    text-shadow: 0px 1px 1px #00000040;
-}
-.accuracy{
-    display:none;
-}
+    position: absolute;
+    top: calc(50% - 140px);
+    left:5px;
+    
+    background-color: #d8d2c3;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 3px solid;
+    border-color: #513a2a;
+    box-shadow: 0px 4px 4px #00000040;
+    }
+    .progress h1{
+        text-align: center;
+        text-shadow: 0px 1px 1px #00000040;
+        font-size: 25px;
+    }
+    #deckName{
+        text-align: center;
+        color: var(--accentDark);
+        text-shadow: 0px 1px 1px #00000040;
+    }
+    .accuracy{
+        display:none;
+    }
+
+/*popup card selection*/
+    div.popup{
+        max-height: 300px;
+        width: 300px;
+        padding:7px;
+        overflow-y:auto;
+        overflow-x:hidden;
+        background-color:var(--slightHighlight);
+
+        display: none;
+    }
+    div.popup div{
+        height: 40px;
+        width: 290px;
+        margin-bottom:10px;
+        background-color: var(--bgColor);
+        padding:4px;
+    }
+    /*to do: make this look better*/
+    div.backShadow{
+        position:fixed;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        z-index:9999;
+
+        background-color: var(--darkBrown);
+        padding-left:5px;
+        padding-bottom:5px;
+        border-radius: 5px;
+
+        display: none;
+    }

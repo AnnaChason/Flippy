@@ -426,3 +426,14 @@ div.iconBtn input{
         display: none;
     }
 */
+
+button{
+    background-color: var(--darkBrown);
+    color: var(--slightHighlight);
+    height: 40px;
+    width: 80px;
+    border-radius: 15px;
+    margin-top: 30px;
+    border-color: var(--slightHighlight);
+    transform: translateY(-35%); /* pull it up by half its own height to center vertically */
+}
