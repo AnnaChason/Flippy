@@ -1,115 +1,155 @@
 /*
-styling for flashcards
+styling for flashcard study page
 */
-#idxCard{
-    width: 800px;
-    height: 400px;
-    background-image: url('../imgs/cardFrame.png');
-    background-size: 800px 400px;
-
-    display: flex;
-    justify-content: center;
+body{
+    display:flex;
+    flex-direction: column;
     align-items: center;
-    text-align: center;
+    height:100vh;
+    overflow: hidden;
 }
-#cardText{
-    font-size:30px;
-    margin-right:10px;
-    margin-left:10px;
+.cardBorder{
+    width: 60%;
+    height: 60%;
+
+    margin-top:50px;
+
+    border-radius: 100px;
+    border: 3px solid;
+    border-color: #513a2a;
+    box-shadow: inset 0px 4px 4px #00000040;
 }
-.cardNav button{
-    background-color: var(--darkBrown);
-    color: var(--slightHighlight);
-    height: 40px;
-    width: 80px;
-    border-radius: 15px;
-    margin-top: 30px;
-    border-color: var(--slightHighlight);
-    transform: translateY(-35%); /* pull it up by half its own height to center vertically */
+#idxCard{
+    position: relative;
+    width: 90%;
+    height: 90%;
+    margin:auto;
+    top:5%;
+    
+    border-radius: 100px;
+    background-color: var(--accentLight);
+    box-shadow: 0px 5px 5px #00000040;
 }
-.cardNav input, img{
-    height: 60px;
-    filter: brightness(0) saturate(100%) invert(22%) sepia(7%) saturate(2535%) hue-rotate(342deg) brightness(95%) contrast(89%);
-}
-.cardNav{
-      display: flex;
-      justify-content: center; /* centers horizontally */
-      align-items: center;     /* centers vertically */
-}
-img{
-    float:left;
-    margin-left:10px;
-}
-#deckTitleText{
-    margin-bottom: 10px;
-}
-div.iconBtn{
-    position:absolute;
-    float:left;
-}
-div.iconBtn input{
-    height:60px;
-}
-#pencilBtn{
-    transform:translateY(-75px);
-}
-#settingsBtn{
-    position: absolute;
-    float:left;
-    transform: translateX(-57px)
-}
-/*styling for check and x buttons*/
-    input.correctness{
-        height:50px;
+
+/*card nav stuff*/
+    div.navFrame{
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items:center;
+        margin-top:15px;
+    }
+    .navFrame img{
+        height:80px;
+    }
+    #flipBtn{
+        padding: 15px 25px;
+        background-color: #74aabe;
+        border-radius: 20px;
+        box-shadow: 0px 4px 4px #00000040;
+        
+        font-size: 30px;
+        color: var(--bgColor);
+    }
+
+/*menu
+to do: make smaller and more responsive
+*/
+
+    div.menu{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        width: 160px;
+        
+        gap: 65px;
+        padding: 16px 2px;
+
         position: absolute;
-        display: none;
-    }
-    #right{
-        transform: translate(-30px,150px);
-    }
-    #wrong{
-        transform: translate(30px,150px);
+        right:5px;
+        margin-top:100px;
+
+        background-color: #d8d2c3;
+        border-radius: 8px;
+        border: 3px solid;
+        border-color: #513a2a;
+        box-shadow: 0px 4px 4px #00000040;
     }
 
-#studyProgress{
-    display:"none";
-    background: var(--slightHighlight);
-    float: right;
-    padding: 10px;
-    margin-right: 10px;
+    .overlap-group {
+        position: absolute;
+        width: 135px;
+        height: 84px;
+        top: 17px;
+        left: 18px;
+    }
+    .deckSelectBtn {
+        position: relative;
+        width: 161.21px;
+        height: 128.97px;
+    }
+
+    div.rect2 {
+        position: absolute;
+        width: 124px;
+        height: 74px;
+        top: 10px;
+        left: 11px;
+        background-color: var(--accentLight);
+        border-radius: 20.15px;
+        box-shadow: 0px 3.22px 3.22px #00000040;
+    }
+
+    div.rect1 {
+        position: absolute;
+        width: 124px;
+        height: 74px;
+        top: 0;
+        left: 0;
+        background-color: var(--accentDark);
+        border-radius: 20.15px;
+        box-shadow: 0px 3.22px 3.22px #00000040;
+    }
+
+    .text-wrapper-2 {
+        position: absolute;
+        top: 106px;
+        left: 19px;
+        font-family: "Lilita One", Helvetica;
+        font-weight: 400;
+        color: var(--brown);
+        font-size: 19.3px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+/*progress menu*/
+div.progress{
+  width: 236px;
+  padding:5px;
+
+  position: absolute;
+  top: calc(50% - 140px);
+  left:5px;
+  
+  background-color: #d8d2c3;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 3px solid;
+  border-color: #513a2a;
+  box-shadow: 0px 4px 4px #00000040;
 }
-
-
-/*popup card selection*/
-    div.popup{
-        max-height: 300px;
-        width: 300px;
-        padding:7px;
-        overflow-y:auto;
-        overflow-x:hidden;
-        background-color:var(--slightHighlight);
-
-        display: none;
-    }
-    div.popup div{
-        height: 40px;
-        width: 290px;
-        margin-bottom:10px;
-        background-color: var(--bgColor);
-        padding:4px;
-    }
-    /*to do: make this look better*/
-    div.backShadow{
-        position:fixed;
-        top:50%;
-        left:50%;
-        transform: translate(-50%,-50%);
-        z-index:9999;
-
-        background-color: var(--darkBrown);
-        padding-left:5px;
-        padding-bottom:5px;
-        border-radius: 5px;
-
-        display: none;
-    }
+.progress h1{
+    text-align: center;
+    text-shadow: 0px 1px 1px #00000040;
+    font-size: 25px;
+}
+#deckName{
+    text-align: center;
+    color: var(--accentDark);
+    text-shadow: 0px 1px 1px #00000040;
+}
+.accuracy{
+    display:none;
+}

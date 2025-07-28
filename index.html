@@ -12,44 +12,43 @@
 </head>
 <body>
     <div class="header"><h1 class="center">Flippy</h1></div>
-    <div style="height:50px"></div>
-      
-    <div class="iconBtn" id="deckSelectBtn">
-        <input type="image" src="imgs/cardStack.png">
-        <h3 class="center">Change Deck</h3>
+
+    <div class="cardBorder"><div id="idxCard"></div></div>
+
+    <div class="navFrame">
+        <img id="arrowPrev" class="icon" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-left-circle.svg" />
+        <div id="flipBtn">Flip</div>
+        <img id="arrowNext" class="icon" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-right-circle.svg" />
+        
     </div>
-    
-    <!--flashcard-->
-    <div class="card">
-        <h2 id="deckTitleText" class="center">Title</h2>
-        
-        <div class="center" id="idxCard">
-            <input class="correctness" id="right" type="image" src="imgs/checkIcon.png">
-            <input class="correctness" id="wrong" type="image" src="imgs/xIcon.png">
-        
-            <p id="cardText">term</p>
 
-            
-        </div>
+     <div class="menu">
+            <div class="deckSelectBtn">
+              <div class="overlap-group">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+              </div>
+              <div class="text-wrapper-2">Change Deck</div>
+            </div>
 
-        <div id="studyProgress">
-            <h3>Struggling: <span id="struggleCountTxt">0</span></h3>
-            <h3>Learning: <span id="mainCountTxt">0</span></h3>
+            <a href="edit.html"><img class="editBtn" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/edit-3.svg" /></a>
+            <img class="settingsBtn" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/settings.svg" />
+     </div>
+
+     <div class="progress">
+        <h1>Progress</h2>
+        <h3>Currently Studying:</h3>
+        <h2 id="deckName">DeckName</h2>
+        <h3 class="center" id="deckIdxTxt"><span id="cardIdx">current</span>/<span id="deckLength">length</span></h3>
+
+        <div class="accuracy">
             <h3>Known: <span id="struggleCountTxt">0</span></h3>
+            <h3>Learning: <span id="mainCountTxt">0</span></h3>
+            <h3>Struggling: <span id="struggleCountTxt">0</span></h3>
         </div>
-        <div class="cardNav">
-            <input class="rotateLeft" type="image" src="imgs/Arrow up circle.svg" id="backBtn">
-            <button id="flipBtn">Flip</button>
-            <input class="rotateRight" type="image" src="imgs/Arrow up circle.svg" id="forwardBtn">
-        </div>
-        <h3 class="center"><span id="cardIdx">current</span>/<span id="deckLength">length</span></h3>
-    </div>
-    
-    <input type="image" id="settingsBtn" style="width:60px;" src="imgs/gear.png">
-    <a href="edit.html"><img id="pencilBtn" src="imgs/pencil2.png"></a>
-    
-    
-    <!--deck selection popup-->
+     </div>
+
+     <!--Popup Menu-->
     <div class="backShadow" id="backShadow">
         <div class="popup" id="deckSelectDiv">
             <input type="image" id="closePopup" style="width:45px; float:right" src="imgs/xIcon.png">
@@ -57,4 +56,3 @@
         </div>
     </div>
 </body>
-</html>

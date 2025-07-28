@@ -11,11 +11,10 @@ styling that applies to several pages
 }
 
 body{
-    background-image: url("../imgs/flippyGrid.png");;
+    /*background-image: url("../imgs/flippyGrid.png");*/
     background-color: var(--bgColor);
     background-size: 800px;
     color: var(--mainText);
-    image-rendering: pixelated;
     font-family:monospace;
     color: var(--darkBrown);
 }
@@ -28,6 +27,8 @@ body{
 div.header{
     background-color: var(--slightHighlight);
     padding: 20px;
+    width:100%;
+    margin-top:20px;
 }
 h1{
     font-size: 30px;
@@ -35,9 +36,6 @@ h1{
 h2{
     font-size: 20px;
 }
-
-.rotateLeft{ transform: rotate(-90deg);}
-.rotateRight{transform: rotate(90deg);}
 
 button{
     background-color: var(--darkBrown);

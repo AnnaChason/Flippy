@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Flippy</title>
+    <link rel="stylesheet" href="cssFiles/mainStyle.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="jsFiles/script.js" ></script>
+
+    <link rel="stylesheet" href="cssFiles/cardStyle.css">
+    <script type="module" src="jsFiles/card.js" defer></script>
+</head>
+<body>
+ <div class="desktop">
+      <div class="frame-wrapper">
+        
+        <div class="frame">
+          <div class="overlap"><div class="rectangle"></div></div>
+          
+          <div class="nav-frame">
+            <img class="arrow-left-circle" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-left-circle.svg" />
+            <img class="arrow-right-circle" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-right-circle.svg" />
+            <div class="flip-btn"><div class="text-wrapper">Flip</div></div>
+          </div>
+
+          <div class="menu">
+            <div class="deck-btn">
+              <div class="overlap-group">
+                <div class="div"></div>
+                <div class="rectangle-2"></div>
+              </div>
+              <div class="text-wrapper-2">Change Deck</div>
+            </div>
+
+            <img class="edit" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/edit-3.svg" />
+            <img class="settings" src="https://c.animaapp.com/mdm6pc2gQkSvUa/img/settings.svg" />
+          </div>
+
+          <div class="div-wrapper"><div class="text-wrapper-3">Flippy</div></div>
+          <div class="progress">
+            <div class="accuracy">
+              <div class="text-wrapper-4">Known:</div>
+              <div class="text-wrapper-5">Learning:</div>
+              <div class="text-wrapper-6">Struggling:</div>
+            </div>
+            <div class="text-wrapper-7">Currently Studying:</div>
+            <div class="text-wrapper-8">Linear Algebra</div>
+          </div>
+
+        </div>
+        
+      </div>
+    </div>
+
+
+    <!--<div class="header"><h1 class="center">Flippy</h1></div>
+    <div style="height:50px"></div>
+      
+    <div class="iconBtn" id="deckSelectBtn">
+        <input type="image" src="imgs/cardStack.png">
+        <h3 class="center">Change Deck</h3>
+    </div>
+    
+    <--flashcard--
+    <div class="card">
+        <h2 id="deckTitleText" class="center">Title</h2>
+        
+        <div class="center" id="idxCard">
+            <input class="correctness" id="right" type="image" src="imgs/checkIcon.png">
+            <input class="correctness" id="wrong" type="image" src="imgs/xIcon.png">
+        
+            <p id="cardText">term</p>
+
+            
+        </div>
+
+        <div id="studyProgress">
+            <h3>Struggling: <span id="struggleCountTxt">0</span></h3>
+            <h3>Learning: <span id="mainCountTxt">0</span></h3>
+            <h3>Known: <span id="struggleCountTxt">0</span></h3>
+        </div>
+        <div class="cardNav">
+            <input class="rotateLeft" type="image" src="imgs/Arrow up circle.svg" id="backBtn">
+            <button id="flipBtn">Flip</button>
+            <input class="rotateRight" type="image" src="imgs/Arrow up circle.svg" id="forwardBtn">
+        </div>
+        <h3 class="center"><span id="cardIdx">current</span>/<span id="deckLength">length</span></h3>
+    </div>
+    
+    <input type="image" id="settingsBtn" style="width:60px;" src="imgs/gear.png">
+    <a href="edit.html"><img id="pencilBtn" src="imgs/pencil2.png"></a>
+    
+    
+    <--deck selection popup--
+    <div class="backShadow" id="backShadow">
+        <div class="popup" id="deckSelectDiv">
+            <input type="image" id="closePopup" style="width:45px; float:right" src="imgs/xIcon.png">
+            <h2 id="popupHead">Select Deck:</h2>
+        </div>
+    </div>-->
+</body>
+</html>
