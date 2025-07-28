@@ -8,6 +8,7 @@ connect to html
 */
     //progress bar elements
     const titleTxt = document.getElementById("deckTitleText");
+    const studyStratTxt = document.getElementById("studyStratTxt")
     const idxTxtHolder = document.getElementById("idxTxtHolder");
     const cardIdxText = document.getElementById("cardIdx");
     const deckLength = document.getElementById("deckLength");
@@ -15,6 +16,7 @@ connect to html
 
     //flashcard elements
     const card = document.getElementById("idxCard");
+    const cardBorder = document.getElementsByClassName("cardBorder")[0];
     const cardTxt = document.getElementById("cardText");
     const forwardBtn = document.getElementById('forwardBtn');
     const backBtn = document.getElementById('backBtn');
@@ -23,6 +25,7 @@ connect to html
 //set up
 var currentCard = 0;
 var cards = null;
+var currDeckId = 0;
 loadRecentDeck();
 
 /*
@@ -106,8 +109,16 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             dpd.style.display = "none";
             forwardBtn.src = "https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-right-circle.svg";
             backBtn.src = "https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-left-circle.svg";
-            //to do: return cards to og order
-            //does js have comparator/ built in sort? if not write a merge sort?
+            studyStratTxt.innerText = "Original";
+            cardBorder.style.border = "3px solid #513A2A";
+            cardBorder.style.boxShadow = "inset 0px 4px 4px #00000040";
+
+            if(currDeckId == 'recent' && cards[0].num != 0){
+                loadRecentDeck();
+            }
+            else if(cards != null && cards[0].num != 0){
+                loadDeck(currDeckId);
+            }
         }
         flip(){
           flipCard();  
@@ -131,6 +142,9 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             dpd.style.display = "none";
             forwardBtn.src = "https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-right-circle.svg";
             backBtn.src = "https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-left-circle.svg";
+            studyStratTxt.innerText = "In random order"
+            cardBorder.style.border = "3px solid #513A2A";
+            cardBorder.style.boxShadow = "inset 0px 4px 4px #00000040";
         }
         flip(){
           flipCard();  
@@ -228,12 +242,25 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
                 this.currCar = this.main.shift();
                 this.showCard(true); 
                 this.cycleIdx++;
+
+                if(this.currCar.score >= 8){
+                    cardBorder.style.border = "3px solid #5C9B77";
+                    cardBorder.style.boxShadow = "inset 0px 4px 4px #0bf73240";
+                }
+                else{
+                    cardBorder.style.border = "3px solid #513A2A";
+                    cardBorder.style.boxShadow = "inset 0px 4px 4px #00000040";
+                }
             }
             else{
                 this.currCar = this.struggle.shift();
                 this.showCard(true); 
                 this.cycleIdx = 0;
+
+                cardBorder.style.border = "3px solid #B85656";
+                cardBorder.style.boxShadow = "inset 0px 4px 4px #ff030340";
             }
+            
         }
 
 
@@ -245,6 +272,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             dpd.style.display = "block";
             forwardBtn.src = "https://c.animaapp.com/mdmdvct2pyJyE5/img/check.svg";
             backBtn.src = "https://c.animaapp.com/mdmdvct2pyJyE5/img/x.svg";
+            studyStratTxt.innerText = "Dynamic";
 
             randomizeOrder();
 
@@ -277,7 +305,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
     }
 
     const stratList = [new InOrder(), new RandOrder(), new Dynamic()];
-    var strat = selectStrat(0);
+    var strat; 
     
     function selectStrat(idx){
         strat = stratList[idx]
@@ -290,13 +318,15 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
 /*
 loads card data
 */
+    
     async function loadDeck(id){
         const deck = await supabase
         .from('deck')
         .select('name,cards')
         .eq('id', id)
         .order('created_at');
-
+        currDeckId = id;
+        console.log(currDeckId);
         titleTxt.innerText=deck.data[0].name;
         cards = deck.data[0].cards;
         cardTxt.innerText = cards[0].term;
@@ -304,6 +334,8 @@ loads card data
         currentCard = 0;
         cardIdxText.innerText = 1;
         deckLength.innerText = cards.length;
+        if(strat != null && strat.name != "In the original order")
+            selectStrat(0);
     }
 /*
 load most recently created deck
@@ -314,6 +346,8 @@ load most recently created deck
         .select('name,cards')
         .order('created_at', {ascending: false})
         .limit(1);
+        currDeckId = 'recent';
+        
 
         titleTxt.innerText=deck.data[0].name;
         cards = deck.data[0].cards;
@@ -322,6 +356,7 @@ load most recently created deck
         currentCard = 0;
         cardIdxText.innerText = 1;
         deckLength.innerText = cards.length;
+        selectStrat(0);
     }
 
 /*
