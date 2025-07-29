@@ -47,11 +47,8 @@ h2{
         color: var(--bgColor);
         border:none;
     }
-    .button.hover{
+    .button:hover{
         background-color: var(--darkBrown);
     }
-    .button.pressed{
-        background-color: var(--accentLight);
-    }
-
+   
 

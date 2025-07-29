@@ -6,17 +6,26 @@ import {supabase} from '../jsFiles/supabaseClient.js';
 /*
 connect to html
 */
+    //progress bar elements
     const titleTxt = document.getElementById("deckTitleText");
-    const cardTxt = document.getElementById("cardText");
-    const rightBtn = document.getElementById("right");
-    const wrongBtn = document.getElementById("wrong");
+    const studyStratTxt = document.getElementById("studyStratTxt")
+    const idxTxtHolder = document.getElementById("idxTxtHolder");
     const cardIdxText = document.getElementById("cardIdx");
     const deckLength = document.getElementById("deckLength");
-    const card = document.getElementById("idxCard");
+    const dpd = document.getElementById("dpd");
 
+    //flashcard elements
+    const card = document.getElementById("idxCard");
+    const cardBorder = document.getElementsByClassName("cardBorder")[0];
+    const cardTxt = document.getElementById("cardText");
+    const forwardBtn = document.getElementById('forwardBtn');
+    const backBtn = document.getElementById('backBtn');
+
+    
 //set up
 var currentCard = 0;
 var cards = null;
+var currDeckId = 0;
 loadRecentDeck();
 
 /*
@@ -68,7 +77,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
         cardIdxText.innerHTML=currentCard+1;
         
         if(flipped){
-            card.style.backgroundImage = `url(imgs/cardFrame.png)`;
+            card.style.backgroundImage = accentLight;
             flipped = false;
         }
         if(cards != null && currentCard < cards.length)
@@ -84,7 +93,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
         cards = [...randomized];
         currentCard = 0;
         cardTxt.innerText = cards[0].term;
-        card.style.backgroundImage = `url(imgs/cardFrame.png)`;
+        card.style.backgroundImage = accentLight;
         cardIdxText.innerHTML=currentCard+1;
     }
 /*
@@ -96,8 +105,20 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             this.name = "In the original order";
         }
         onSelect(){
-            //to do: return cards to og order
-            //does js have comparator/ built in sort? if not write a merge sort?
+            idxTxtHolder.style.display = "block";
+            dpd.style.display = "none";
+            forwardBtn.src = "https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-right-circle.svg";
+            backBtn.src = "https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-left-circle.svg";
+            studyStratTxt.innerText = "Original";
+            cardBorder.style.border = "3px solid #513A2A";
+            cardBorder.style.boxShadow = "inset 0px 4px 4px #00000040";
+
+            if(currDeckId == 'recent' && cards[0].num != 0){
+                loadRecentDeck();
+            }
+            else if(cards != null && cards[0].num != 0){
+                loadDeck(currDeckId);
+            }
         }
         flip(){
           flipCard();  
@@ -109,6 +130,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             back();
         }
     }
+
     //random order
     class RandOrder{
         constructor(){
@@ -116,6 +138,13 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
         }
         onSelect(){
             randomizeOrder();
+            idxTxtHolder.style.display = "block";
+            dpd.style.display = "none";
+            forwardBtn.src = "https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-right-circle.svg";
+            backBtn.src = "https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-left-circle.svg";
+            studyStratTxt.innerText = "In random order"
+            cardBorder.style.border = "3px solid #513A2A";
+            cardBorder.style.boxShadow = "inset 0px 4px 4px #00000040";
         }
         flip(){
           flipCard();  
@@ -128,6 +157,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             back();
         }
     }
+
     //dynamic study
     class Dynamic{
         constructor(){
@@ -170,60 +200,25 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
 
             this.showProgress();
         }
+        /*
+        displays the current card
+        param strictFront - if false it flips the card, if true, it puts the card on the front side
+        */
         showCard(strictFront){
-            cardIdxText.innerHTML="??";//idk figure this out later
-            card.style.backgroundImage = `url(imgs/cardFrame.png)`;
             if(!this.front || strictFront){
-                rightBtn.style.display="none";
-                wrongBtn.style.display="none";
+                card.style.backgroundColor = accentLight;
                 cardTxt.innerText=this.currCar.term;
                 this.front = true;
             }
             else{
-                rightBtn.style.display="block";
-                wrongBtn.style.display="block";
-                card.style.backgroundImage = `url(imgs/cardFrameBack.png)`;
+                card.style.backgroundColor = accentDark;
 
                 cardTxt.innerText=this.currCar.definition;
                 this.front = false;
             }
         }
 
-        /*
-            public methods
-        */
-        onSelect(){
-            randomizeOrder();
-
-            //connect to right/wrong buttons. (does this work when they are hidden?)
-            document.getElementById('right').onclick = (() =>{
-                this.updatePlacement(this.currCar,true);
-                this.next();
-            });
-            document.getElementById('wrong').onclick = (() =>{
-                this.updatePlacement(this.currCar, false);
-                this.next();
-            });
-
-            this.knowCount = 0;
-            this.struggle = [];
-            this.main = [];
-            for(let i = 0; i < cards.length; i++){
-                if(cards[i].score == undefined){
-                    cards[i].score = 5;
-                    this.main.push(cards[i]);
-                }
-                else
-                    this.updatePlacement("none", cards[i]);
-            }
-            this.currCar = this.main.shift();
-            this.showCard(true);
-        }
-        flip(){
-          this.showCard(false);
-          
-        }
-        next(){
+        forward(){
             //if run out of cards in main and have some left in struggle, add to the score of struggle until half of them are in main.
             //should probably come up with a better way to handle this later.
             if(this.main.length == 0){
@@ -247,42 +242,91 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
                 this.currCar = this.main.shift();
                 this.showCard(true); 
                 this.cycleIdx++;
+
+                if(this.currCar.score >= 8){
+                    cardBorder.style.border = "3px solid #5C9B77";
+                    cardBorder.style.boxShadow = "inset 0px 4px 4px #0bf73240";
+                }
+                else{
+                    cardBorder.style.border = "3px solid #513A2A";
+                    cardBorder.style.boxShadow = "inset 0px 4px 4px #00000040";
+                }
             }
             else{
                 this.currCar = this.struggle.shift();
                 this.showCard(true); 
                 this.cycleIdx = 0;
+
+                cardBorder.style.border = "3px solid #B85656";
+                cardBorder.style.boxShadow = "inset 0px 4px 4px #ff030340";
             }
+            
         }
-        prev(){//to do: figure out if this should be an option and if so how it should change the score
-            rightBtn.style.display="none";
-            wrongBtn.style.display="none";
+
+
+        /*
+            public methods
+        */
+        onSelect(){
+            idxTxtHolder.style.display = "none";
+            dpd.style.display = "block";
+            forwardBtn.src = "https://c.animaapp.com/mdmdvct2pyJyE5/img/check.svg";
+            backBtn.src = "https://c.animaapp.com/mdmdvct2pyJyE5/img/x.svg";
+            studyStratTxt.innerText = "Dynamic";
+
+            randomizeOrder();
+
+            this.knowCount = 0;
+            this.struggle = [];
+            this.main = [];
+            for(let i = 0; i < cards.length; i++){
+                if(cards[i].score == undefined){
+                    cards[i].score = 5;
+                    this.main.push(cards[i]);
+                }
+                else
+                    this.updatePlacement("none", cards[i]);
+            }
+            this.currCar = this.main.shift();
             this.showCard(true);
-            //back();
+        }
+        flip(){
+          this.showCard(false);
+        }
+        
+        next(){//right
+            this.updatePlacement(true, this.currCar);
+            this.forward();
+        }
+        prev(){//wrong
+            this.updatePlacement(false, this.currCar);
+            this.forward();
         }
     }
 
     const stratList = [new InOrder(), new RandOrder(), new Dynamic()];
-    var strat = selectStrat(0);
+    var strat; 
     
     function selectStrat(idx){
         strat = stratList[idx]
         console.log(strat.name);
         document.getElementById('flipBtn').onclick = strat.flip.bind(strat);
-        document.getElementById('forwardBtn').onclick = strat.next.bind(strat);
-        document.getElementById('backBtn').onclick = strat.prev.bind(strat);
+        forwardBtn.onclick = strat.next.bind(strat);
+        backBtn.onclick = strat.prev.bind(strat);
         strat.onSelect();
     }
 /*
 loads card data
 */
+    
     async function loadDeck(id){
         const deck = await supabase
         .from('deck')
         .select('name,cards')
         .eq('id', id)
         .order('created_at');
-
+        currDeckId = id;
+        console.log(currDeckId);
         titleTxt.innerText=deck.data[0].name;
         cards = deck.data[0].cards;
         cardTxt.innerText = cards[0].term;
@@ -290,6 +334,8 @@ loads card data
         currentCard = 0;
         cardIdxText.innerText = 1;
         deckLength.innerText = cards.length;
+        if(strat != null && strat.name != "In the original order")
+            selectStrat(0);
     }
 /*
 load most recently created deck
@@ -300,6 +346,8 @@ load most recently created deck
         .select('name,cards')
         .order('created_at', {ascending: false})
         .limit(1);
+        currDeckId = 'recent';
+        
 
         titleTxt.innerText=deck.data[0].name;
         cards = deck.data[0].cards;
@@ -308,6 +356,7 @@ load most recently created deck
         currentCard = 0;
         cardIdxText.innerText = 1;
         deckLength.innerText = cards.length;
+        selectStrat(0);
     }
 
 /*
