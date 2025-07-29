@@ -6,9 +6,10 @@ import { supabase } from './supabaseClient.js';
 //get elements from screen
 const titleIn = document.getElementById("titleInput");
 const descIn = "";
-const termIns = document.getElementsByClassName("term");
-const defIns = document.getElementsByClassName("def");
-
+var termIns;
+var defIns;
+const inputHolder = document.getElementById("inputHolder");
+addRows(true);
 
 /* saves deck */
 document.addEventListener('DOMContentLoaded', () => {
@@ -36,6 +37,26 @@ function getInput(){
     return deck;
 }
 
+function addRows(creating){
+    if(creating){
+        var offset = 0;
+        if(termIns != null){
+            offset = termIns.length;
+        }
+        for(let i = 1; i<=15; i++){
+            let num = i+offset;
+            inputHolder.innerHTML += `<div class="center"><h1>`+num+`.</h1>
+            <textarea class="term" rows="2" cols="30" placeholder="Term"></textarea>
+            <textarea class="def" rows="2" cols="40" placeholder="Definition"></textarea></div>`
+        }
+    }
+    else{
+    }
+
+    termIns = document.getElementsByClassName("term");
+    defIns = document.getElementsByClassName("def");
+}
+document.getElementById("addCardsBtn").onclick = () => addRows(true);
 //to do: functions to retreive and populate form with data if editing already created deck
 async function getDeck(){
 
@@ -44,3 +65,4 @@ async function getDeck(){
 function populateForm(){
 
 }
+
