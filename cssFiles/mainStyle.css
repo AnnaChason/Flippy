@@ -36,6 +36,10 @@ h1{
 h2{
     font-size: 20px;
 }
+a{
+    text-decoration:none;
+    color:#513A2A;
+}
 
 /*button stuff!*/
     .button{
@@ -49,6 +53,7 @@ h2{
     }
     .button:hover{
         background-color: var(--darkBrown);
+        cursor:pointer;
     }
    
 

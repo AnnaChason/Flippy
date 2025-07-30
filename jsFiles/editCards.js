@@ -20,6 +20,8 @@ async function updateDeck(){
     const { error } = await supabase
     .from('deck')
     .insert(getInput());
+
+    window.location.href = 'index.html';
 }
 
 //retreive info from form
