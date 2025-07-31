@@ -3,6 +3,18 @@ javascript file for managing flashcard on the home screen
 */
 import {supabase} from '../jsFiles/supabaseClient.js';
 
+/*check that user is logged in */
+window.addEventListener('DOMContentLoaded', async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    // Redirect to login page or show login form
+    window.location.href = 'auth.html';
+  } else {
+    // Continue with page logic
+    console.log("Logged in as:", session.user.email);
+  }
+});
+
 /*
 connect to html
 */

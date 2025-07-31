@@ -71,8 +71,11 @@ async function signUp(){
 //const user = await supabase.auth.getUser().data;
 
 async function logOut(){
-    const { error } = await supabase.auth.signOut();
-    window.location.href = 'auth.html';
+    const error = await supabase.auth.signOut();
+    if(error != null){
+        console.log("Logout error: ", error.message);
+    }
+    window.location.href = "auth.html";
 }
 
 
