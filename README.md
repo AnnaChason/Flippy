@@ -7,7 +7,7 @@
 - **HTML** / **CSS** / **JavaScript**
 - **Supabase** for:
   - Authentication
-  - Realtime Database
+  - Database
 - **Figma** for UI design and prototyping
 
 ## 🚀 Features

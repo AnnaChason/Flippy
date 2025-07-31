@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="jsFiles/script.js" ></script>
 
-    <script src="jsFiles/auth.js"></script>
+    <script type="module" src="jsFiles/auth.js"></script>
     <link rel="stylesheet" href="cssFiles/auth.css"></link>
 </head>
 <body>
@@ -22,7 +22,8 @@
         <input type="password" id="passwordInput" Placeholder="Password">
         <input type="password" id="passwordConfirm" Placeholder="Confirm password">
 
-        <button class="button">Create Account</button>
+        <button class="button" id="signUpBtn">Create Account</button>
+        <h2 style="color:#B85656; display:none;" id="errorTxt">Error</h3>
     </div>
     
     
