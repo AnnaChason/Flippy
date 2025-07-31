@@ -3,6 +3,7 @@ javascript file for managing flashcard on the home screen
 */
 import {supabase} from '../jsFiles/supabaseClient.js';
 
+var user_id = null;
 /*check that user is logged in */
 window.addEventListener('DOMContentLoaded', async () => {
   const { data: { session } } = await supabase.auth.getSession();
@@ -12,6 +13,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   } else {
     // Continue with page logic
     console.log("Logged in as:", session.user.email);
+    user_id = session.user.id;
+    loadRecentDeck();
   }
 });
 
@@ -38,7 +41,6 @@ connect to html
 var currentCard = 0;
 var cards = null;
 var currDeckId = 0;
-loadRecentDeck();
 
 /*
 manages different ways to study the flashcards
@@ -356,19 +358,21 @@ load most recently created deck
         const deck = await supabase
         .from('deck')
         .select('name,cards')
+        .eq('user_id', user_id)
         .order('created_at', {ascending: false})
         .limit(1);
         currDeckId = 'recent';
         
-
-        titleTxt.innerText=deck.data[0].name;
-        cards = deck.data[0].cards;
-        cardTxt.innerText = cards[0].term;
-        
-        currentCard = 0;
-        cardIdxText.innerText = 1;
-        deckLength.innerText = cards.length;
-        selectStrat(0);
+        if(deck.data[0] != null){
+            titleTxt.innerText=deck.data[0].name;
+            cards = deck.data[0].cards;
+            cardTxt.innerText = cards[0].term;
+            
+            currentCard = 0;
+            cardIdxText.innerText = 1;
+            deckLength.innerText = cards.length;
+            selectStrat(0);
+        }
     }
 
 /*
@@ -405,7 +409,8 @@ manages the deck selection popup
         const titles = await supabase
         .from('deck')
         .select('name,id')
-        .order('created_at')
+        .eq('user_id', user_id)
+        .order('created_at');
 
         for(let i = 0; i < titles.data.length; i++){
             var row = document.createElement("div");

@@ -3,6 +3,17 @@ js for editing flashcards
 */
 import { supabase } from './supabaseClient.js';
 
+async function getUID() {
+    const {data, error} = await supabase.auth.getUser();
+    if (error || !data || !data.user) {
+        console.log("Error: not logged in");
+        return false;
+    }
+    else{
+        return data.user.id;
+    }
+}
+
 //get elements from screen
 const titleIn = document.getElementById("titleInput");
 const descIn = "";
@@ -16,16 +27,18 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('saveBtn').addEventListener('click', updateDeck);
 });
 async function updateDeck(){
-    //to do: check if deck has already been made
-    const { error } = await supabase
-    .from('deck')
-    .insert(getInput());
-
-    window.location.href = 'index.html';
+    let newDeck = getInput()
+    if(newDeck != false){
+        //to do: check if deck has already been made
+        const { error } = await supabase
+        .from('deck')
+        .insert(await getInput());
+        window.location.href = 'index.html';
+    }
 }
 
 //retreive info from form
-function getInput(){
+async function getInput(){
     var cards = [];
     var offset = 0;//to make sure numvers stay correct if there's a gap in the middle of the form
     for(let i=0; i < termIns.length; i++){
@@ -35,10 +48,15 @@ function getInput(){
             offset ++;
         }
     }
-    const deck = new Deck(titleIn.value, descIn,cards);
-    return deck;
+    if(cards.length > 0 && titleIn.value != ""){
+        const deck = new Deck(titleIn.value, descIn,cards, await getUID());
+        return deck;
+    }
+    else
+        return false;
 }
 
+//puts rows in the form
 function addRows(creating){
     if(creating){
         var offset = 0;
