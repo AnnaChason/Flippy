@@ -27,13 +27,21 @@ addRows();
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('saveBtn').addEventListener('click', updateDeck);
 });
+
 async function updateDeck(){
-    let newDeck = getInput()
-    if(newDeck != false){
-        //to do: check if deck has already been made
-        const { error } = await supabase
+    let newDeck = await getInput();
+    if(currDeck != null){
+        const response = await supabase
+            .from('deck')
+            .delete()
+            .eq('id', currDeck.id);
+    }
+    if(newDeck){
+        const { data,error } = await supabase
         .from('deck')
-        .insert(await getInput());
+        .insert(newDeck);
+
+        console.log("runningg");
         window.location.href = 'index.html';
     }
 }
@@ -104,7 +112,6 @@ manages the deck selection popup
         .eq('user_id', await getUID())
         .order('created_at');
 
-        console.log(titles);
 
         for(let i = 0; i < titles.data.length; i++){
             var row = document.createElement("div");
@@ -130,14 +137,13 @@ manages the deck selection popup
 
 //to do: functions to retreive and populate form with data if editing already created deck
 async function loadDeck(id){
-    let d = await supabase
+    let {data,error} = await supabase
         .from('deck')
-        .select('name,cards')
+        .select('name,cards,id')
         .eq('id', id)
         .limit(1);
 
-    currDeck = d.data[0];
-    console.log(currDeck);
+    currDeck = data[0];
     if(currDeck != null && currDeck.cards != null){
         titleIn.value = currDeck.name;
         inputHolder.innerHTML = "";
