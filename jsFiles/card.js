@@ -13,6 +13,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   } else {
     // Continue with page logic
     console.log("Logged in as:", session.user.email);
+    document.getElementById("emailTxt").innerText = session.user.email;
     user_id = session.user.id;
     loadRecentDeck();
   }

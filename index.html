@@ -63,7 +63,13 @@
         </div>
      </div>
 
-     <div id="logoutBtn" style=" display:flex; position:absolute; bottom:10px; left:5px; padding:5px; background-color: var(--slightHighlight); border-radius: 20px;"><img src="https://c.animaapp.com/mdmdvct2pyJyE5/img/user.svg" style="height:60px;"> <h3>log out</h3></div>
+     <div id="logoutBtn" class="logoutBtn">
+        <img src="https://c.animaapp.com/mdmdvct2pyJyE5/img/user.svg" style="height:60px; display:inline" > 
+        <div>
+            <h3>log out</h3>
+            <p class="currUser">Currently logged in as: <span id="emailTxt">no email found</span></p>
+        </div>
+    </div>
 
      <!--Popup Menu-->
     <div class="backShadow" id="backShadow">

@@ -180,6 +180,7 @@ body{
     }
 
 
+
 /*progress menu*/
     div.progress{
         width: 20%;
@@ -210,4 +211,32 @@ body{
     .accuracy{
         display:none;
     }
+
+/*logout button styling*/
+    #logoutBtn{
+        display:flex; 
+        position:absolute; 
+        bottom:10px; 
+        left:5px; 
+        padding:5px; 
+        background-color: var(--slightHighlight); 
+        border-radius: 20px;
+    }
+    #logoutBtn:hover{
+        background-color: var(--accentLight); 
+        cursor:pointer;
+    }
+    .currUser{
+        display:none;
+    }
+    #logoutBtn h3,p{
+        margin-right:3px;
+    }
+    #logoutBtn:hover h3{
+        text-decoration:underline;
+    }
+    #logoutBtn:hover p{
+        display:block;
+    }
+
 
