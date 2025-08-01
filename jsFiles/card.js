@@ -38,9 +38,10 @@ connect to html
 
     
 //set up
-var currentCard = 0;
-var cards = null;
-var currDeckId = 0;
+var currentCard = 0; //index of current card (not used in dynamic)
+var cards = null; //list of cards
+var currDeck = null; //deck object currently being used (contains name, cards, and id only)
+var unsavedChanges = false;  //whether there are changes to be saved (used for saving score in dynamic)
 
 /*
 manages different ways to study the flashcards
@@ -119,6 +120,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             this.name = "In the original order";
         }
         onSelect(){
+            saveCards();
             idxTxtHolder.style.display = "block";
             dpd.style.display = "none";
             forwardBtn.src = "https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-right-circle.svg";
@@ -126,12 +128,9 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             studyStratTxt.innerText = "Original";
             cardBorder.style.border = "3px solid #513A2A";
             cardBorder.style.boxShadow = "inset 0px 4px 4px #00000040";
-
-            if(currDeckId == 'recent' && cards[0].num != 0){
-                loadRecentDeck();
-            }
-            else if(cards != null && cards[0].num != 0){
-                loadDeck(currDeckId);
+            
+            if(cards != null){
+                cards.sort((a, b) => a.num - b.num);
             }
         }
         flip(){
@@ -151,7 +150,9 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             this.name = "In a random order";
         }
         onSelect(){
+            saveCards();
             randomizeOrder();
+
             idxTxtHolder.style.display = "block";
             dpd.style.display = "none";
             forwardBtn.src = "https://c.animaapp.com/mdm6pc2gQkSvUa/img/arrow-right-circle.svg";
@@ -167,7 +168,6 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             forward();
         }
         prev(){
-             randomizeOrder();
             back();
         }
     }
@@ -211,7 +211,8 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             else{
                 this.knowCount ++;
             }
-
+            
+            unsavedChanges = true;
             this.showProgress();
         }
         /*
@@ -289,8 +290,9 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             studyStratTxt.innerText = "Dynamic";
 
             randomizeOrder();
+            
 
-            this.knowCount = 0;
+            this.knowCount = 0;0
             this.struggle = [];
             this.main = [];
             for(let i = 0; i < cards.length; i++){
@@ -323,7 +325,6 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
     
     function selectStrat(idx){
         strat = stratList[idx]
-        console.log(strat.name);
         document.getElementById('flipBtn').onclick = strat.flip.bind(strat);
         forwardBtn.onclick = strat.next.bind(strat);
         backBtn.onclick = strat.prev.bind(strat);
@@ -334,16 +335,16 @@ loads card data
 */
     
     async function loadDeck(id){
-        const deck = await supabase
+        saveCards();
+        let d = await supabase
         .from('deck')
-        .select('name,cards')
+        .select('name,cards,id')
         .eq('id', id)
         .limit(1);
-        
-        currDeckId = id;
-        console.log(currDeckId);
-        titleTxt.innerText=deck.data[0].name;
-        cards = deck.data[0].cards;
+        currDeck = d.data[0];
+   
+        titleTxt.innerText=currDeck.name;
+        cards = currDeck.cards;
         cardTxt.innerText = cards[0].term;
         
         currentCard = 0;
@@ -356,17 +357,18 @@ loads card data
 load most recently created deck
 */
     async function loadRecentDeck(){
-        const deck = await supabase
+        saveCards();
+        let d = await supabase
         .from('deck')
-        .select('name,cards')
+        .select('name,cards,id')
         .eq('user_id', user_id)
         .order('created_at', {ascending: false})
         .limit(1);
-        currDeckId = 'recent';
+        currDeck = d.data[0];
         
-        if(deck.data[0] != null){
-            titleTxt.innerText=deck.data[0].name;
-            cards = deck.data[0].cards;
+        if(currDeck != null){
+            titleTxt.innerText=currDeck.name;
+            cards = currDeck.cards;
             cardTxt.innerText = cards[0].term;
             
             currentCard = 0;
@@ -458,4 +460,28 @@ study strategy selection popup
         }
     }
 
+/*
+score update in database
+*/
 
+setInterval(async () => {
+   saveCards();
+}, 60000); // every 60 seconds
+
+async function saveCards(){
+    if (unsavedChanges) {
+        unsavedChanges = false;
+        cards.sort((a, b) => a.num - b.num);
+
+        const { error } = await supabase
+        .from('deck')
+        .update({ cards: cards }) // assumes cards is json
+        .eq('id', currDeck.id);
+
+        if (error) {
+            console.error("Autosave error:", error.message);
+        } else {
+            console.log("Progress saved at", new Date().toLocaleTimeString());
+        }
+    }
+}

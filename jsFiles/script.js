@@ -8,10 +8,10 @@ class Deck{
     }
 }
 class Card{
-    constructor(num,term,definition){
+    constructor(num,term,definition, score=5){
         this.num = num;
         this.term = term;
         this.definition = definition;
-        this.score = 5;
+        this.score = score;
     }
 }
