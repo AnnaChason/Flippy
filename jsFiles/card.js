@@ -338,7 +338,8 @@ loads card data
         .from('deck')
         .select('name,cards')
         .eq('id', id)
-        .order('created_at');
+        .limit(1);
+        
         currDeckId = id;
         console.log(currDeckId);
         titleTxt.innerText=deck.data[0].name;

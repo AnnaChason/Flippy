@@ -20,7 +20,8 @@ const descIn = "";
 var termIns;
 var defIns;
 const inputHolder = document.getElementById("inputHolder");
-addRows(true);
+var currDeck = null;
+addRows();
 
 /* saves deck */
 document.addEventListener('DOMContentLoaded', () => {
@@ -57,32 +58,96 @@ async function getInput(){
 }
 
 //puts rows in the form
-function addRows(creating){
-    if(creating){
-        var offset = 0;
-        if(termIns != null){
-            offset = termIns.length;
-        }
-        for(let i = 1; i<=15; i++){
-            let num = i+offset;
-            inputHolder.innerHTML += `<div class="center"><h1>`+num+`.</h1>
-            <textarea class="term" rows="2" cols="30" placeholder="Term"></textarea>
-            <textarea class="def" rows="2" cols="40" placeholder="Definition"></textarea></div>`
-        }
+function addRows(){
+    var offset = 0;
+    if(termIns != null){
+        offset = termIns.length;
     }
-    else{
+    for(let i = 1; i<=15; i++){
+        let num = i+offset;
+        inputHolder.innerHTML += `<div class="center"><h1>`+num+`.</h1>
+        <textarea class="term" rows="2" cols="30" placeholder="Term"></textarea>
+        <textarea class="def" rows="2" cols="40" placeholder="Definition"></textarea></div>`
     }
-
     termIns = document.getElementsByClassName("term");
     defIns = document.getElementsByClassName("def");
 }
-document.getElementById("addCardsBtn").onclick = () => addRows(true);
+document.getElementById("addCardsBtn").onclick = () => addRows();
+
+/*
+    deck editing functions
+*/
+const selectionPopup = document.getElementById("backShadow");
+
+const editBtn = document.getElementById("editBtn");
+editBtn.onclick = ()=>{
+    selectionPopup.style.display = "block";
+    loadTitles();
+    document.getElementById("closePopup").onclick = () => {
+        selectionPopup.style.display = "none";
+        removeRows();
+    }
+}
+
+
+
+/*
+manages the deck selection popup
+*/
+    const holderdiv = document.getElementById("deckSelectDiv");
+
+    //load deck option titles
+    async function loadTitles(){
+        const titles = await supabase
+        .from('deck')
+        .select('name,id')
+        .eq('user_id', await getUID())
+        .order('created_at');
+
+        console.log(titles);
+
+        for(let i = 0; i < titles.data.length; i++){
+            var row = document.createElement("div");
+            var text = document.createElement("p");
+            text.innerText = titles.data[i].name;
+            row.appendChild(text);
+            row.addEventListener("click", ()=>{ 
+                backShadow.style.display="none"; 
+                removeRows();
+                loadDeck(titles.data[i].id);
+            });
+            holderdiv.appendChild(row);
+        }
+    }
+
+    function removeRows(){
+        let rows = holderdiv.querySelectorAll("div");
+        rows.forEach(div => {
+            div.remove();
+        });
+    }
+
+
 //to do: functions to retreive and populate form with data if editing already created deck
-async function getDeck(){
+async function loadDeck(id){
+    let d = await supabase
+        .from('deck')
+        .select('name,cards')
+        .eq('id', id)
+        .limit(1);
 
-    return deck;
-}
-function populateForm(){
+    currDeck = d.data[0];
+    console.log(currDeck);
+    if(currDeck != null && currDeck.cards != null){
+        titleIn.value = currDeck.name;
+        inputHolder.innerHTML = "";
+        for(let i = 0; i < currDeck.cards.length; i++){
+            inputHolder.innerHTML += `<div class="center"><h1>`+i+`.</h1>
+            <textarea class="term" rows="2" cols="30" placeholder="Term">`+currDeck.cards[i].term+`</textarea>
+            <textarea class="def" rows="2" cols="40" placeholder="Definition">`+currDeck.cards[i].definition+`</textarea></div>`
 
+        }
+    }
 }
+
 

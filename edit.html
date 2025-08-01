@@ -11,20 +11,35 @@
     <script type="module" src="jsFiles/editCards.js"></script>
     </head>
 <body>
-    <div class="header"><h1 class="center">Flippy</h1></div>
+    <div class="header">
+        <h1 class="center">Create a new deck!</h1>
+        <h2 id="editBtn">(or edit an existing one)</h2>
+    </div>
     <!--<div style="height:40px"></div>-->
     
     <button id="saveBtn" class="button">Save</button>
     <a href="index.html"><button class="button">Cancel</button></a>
 
     <a href="quizletUpload.html"><button style="position:absolute;width:200px; right:8px;" class="button">Upload from Quizlet instead</button></a><!--slightly higher than other buttons, no idea why. fix later-->
-
-    <input class="center" id="titleInput" type="text" placeholder="Title">
-    <div style="height:15px"></div>
-        
-    <div class="inputs" id="inputHolder">
+    
+    <div class="form">
+        <input class="center" id="titleInput" type="text" placeholder="Title">
+        <div style="height:15px"></div>
+            
+        <div class="inputs" id="inputHolder">
+        </div>
     </div>
     
     <button class="button center" id="addCardsBtn"> <img src="imgs/plusIcon.svg">Add Cards</button>
+    
+
+    <!--Popup Menu-->
+    <div class="backShadow" id="backShadow">
+        <div class="popup" id="deckSelectDiv">
+            <input type="image" id="closePopup" style="width:45px; float:right" src="https://c.animaapp.com/mdmdvct2pyJyE5/img/x.svg">
+            <h2 id="popupHead">Which deck would you like to edit?</h2>
+        </div>
+    </div>
+
 </body>
 </html>

@@ -1,11 +1,12 @@
 body{
     background-image: url("../imgs/flippyGrid.png");
+    overflow-x: hidden;
 }
 .inputs div{
     margin-bottom: 15px;
 }
 
-input{
+.form input{
     height: 50px;
     max-width:1000px;
     border: none;
@@ -54,4 +55,12 @@ textarea.upload{
     height: 25px;
     rotate: 180deg;
     transform: translate(3px,-3.5px);
+}
+
+.header h2{
+    text-align:center;
+}
+.header h2:hover{
+    cursor:pointer;
+    text-decoration:underline;
 }
