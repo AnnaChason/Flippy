@@ -30,12 +30,16 @@ connect to html
     const dpd = document.getElementById("dpd");
 
     //flashcard elements
-    const card = document.getElementById("idxCard");
+    const cTxtF = document.getElementById("cTxtF");
+    const cTxtB = document.getElementById("cTxtB")
     const cardBorder = document.getElementsByClassName("cardBorder")[0];
-    const cardTxt = document.getElementById("cardText");
     const forwardBtn = document.getElementById('forwardBtn');
     const backBtn = document.getElementById('backBtn');
 
+    /*get rid of:
+    cardTxt
+    card
+    */
     
 //set up
 var currentCard = 0; //index of current card (not used in dynamic)
@@ -51,52 +55,36 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
 // shared
     var flipped = false;
     function flipCard(){
-        if(flipped){//going to front
-            card.style.backgroundColor= accentLight;
-            if(cards != null)
-                cardTxt.innerText=cards[currentCard].term;
-        }else{//going to back
-            card.style.backgroundColor= accentDark;
-            if(cards != null && currentCard < cards.length)
-                cardTxt.innerText=cards[currentCard].definition;
-        }
+        document.getElementsByClassName("cardOuter")[0].classList.toggle('flipped');
         flipped = !flipped;
-        return !flipped;
+    }
+
+    function updateCardDisplay(){
+        if(currentCard < 0){
+            currentCard = cards.length-1;
+        }
+        if(currentCard >= cards.length){
+            currentCard = 0;
+        }
+        cardIdxText.innerHTML=currentCard+1;
+
+        if(flipped){
+            flipCard();
+        }
+        if(cards != null){
+            cTxtF.innerText = cards[currentCard].term;
+            cTxtB.innerText = cards[currentCard].definition;
+        }
     }
 
     function forward(){
         currentCard ++;
-        if(currentCard < 0){
-            currentCard = cards.length-1;
-        }
-        if(currentCard >= cards.length){
-            currentCard = 0;
-        }
-        cardIdxText.innerHTML=currentCard+1;
-
-        if(flipped){
-            card.style.backgroundColor= accentLight;
-            flipped = false;
-        }
-        if(cards != null)
-            cardTxt.innerText=cards[currentCard].term;
+        updateCardDisplay();
+        
     }
     function back(){
         currentCard --;
-        if(currentCard < 0){
-            currentCard = cards.length-1;
-        }
-        if(currentCard >= cards.length){
-            currentCard = 0;
-        }
-        cardIdxText.innerHTML=currentCard+1;
-        
-        if(flipped){
-            card.style.backgroundImage = accentLight;
-            flipped = false;
-        }
-        if(cards != null && currentCard < cards.length)
-            cardTxt.innerText=cards[currentCard].term;
+        updateCardDisplay();
     }
 
     function randomizeOrder(){  
@@ -107,8 +95,6 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
         }
         cards = [...randomized];
         currentCard = 0;
-        cardTxt.innerText = cards[0].term;
-        card.style.backgroundImage = accentLight;
         cardIdxText.innerHTML=currentCard+1;
     }
 /*
@@ -132,6 +118,9 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             if(cards != null){
                 cards.sort((a, b) => a.num - b.num);
             }
+            currentCard = 0;
+
+            updateCardDisplay();
         }
         flip(){
           flipCard();  
@@ -152,6 +141,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
         onSelect(){
             saveCards();
             randomizeOrder();
+            updateCardDisplay();
 
             idxTxtHolder.style.display = "block";
             dpd.style.display = "none";
@@ -218,19 +208,17 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
         /*
         displays the current card
         param strictFront - if false it flips the card, if true, it puts the card on the front side
-        */
-        showCard(strictFront){
-            if(!this.front || strictFront){
-                card.style.backgroundColor = accentLight;
-                cardTxt.innerText=this.currCar.term;
-                this.front = true;
-            }
-            else{
-                card.style.backgroundColor = accentDark;
 
-                cardTxt.innerText=this.currCar.definition;
-                this.front = false;
-            }
+        cTxtF.innerText = cards[currentCard].term;
+            cTxtB.innerText = cards[currentCard].definition;
+        */
+        showCard(){
+            if(flipped)
+                flipCard();
+
+            cTxtF.innerText = this.currCar.term;
+            cTxtB.innerText = this.currCar.definition;
+            this.front = true;
         }
 
         forward(){
@@ -255,7 +243,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             }
             if(this.cycleIdx < 3 || this.struggle.length <= 0){
                 this.currCar = this.main.shift();
-                this.showCard(true); 
+                this.showCard(); 
                 this.cycleIdx++;
 
                 if(this.currCar.score >= 8){
@@ -269,7 +257,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             }
             else{
                 this.currCar = this.struggle.shift();
-                this.showCard(true); 
+                this.showCard(); 
                 this.cycleIdx = 0;
 
                 cardBorder.style.border = "3px solid #B85656";
@@ -304,10 +292,10 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
                     this.updatePlacement("none", cards[i]);
             }
             this.currCar = this.main.shift();
-            this.showCard(true);
+            this.showCard();
         }
         flip(){
-          this.showCard(false);
+            flipCard();
         }
         
         next(){//right
@@ -345,13 +333,14 @@ loads card data
    
         titleTxt.innerText=currDeck.name;
         cards = currDeck.cards;
-        cardTxt.innerText = cards[0].term;
         
         currentCard = 0;
         cardIdxText.innerText = 1;
         deckLength.innerText = cards.length;
         if(strat != null && strat.name != "In the original order")
             selectStrat(0);
+        
+        updateCardDisplay();
     }
 /*
 load most recently created deck
@@ -369,13 +358,13 @@ load most recently created deck
         if(currDeck != null){
             titleTxt.innerText=currDeck.name;
             cards = currDeck.cards;
-            cardTxt.innerText = cards[0].term;
             
             currentCard = 0;
             cardIdxText.innerText = 1;
             deckLength.innerText = cards.length;
             selectStrat(0);
         }
+
     }
 
 /*
@@ -459,6 +448,11 @@ study strategy selection popup
             popupdiv.appendChild(row);
         }
     }
+
+document.getElementById("toEdit").onclick =  async () => {
+    await saveCards();
+    window.location.href = 'edit.html';
+}
 
 /*
 score update in database
