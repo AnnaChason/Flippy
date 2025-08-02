@@ -44,6 +44,9 @@ async function updateDeck(){
         console.log("runningg");
         window.location.href = 'index.html';
     }
+    else{
+        creationError();
+    }
 }
 
 //retreive info from form
@@ -82,14 +85,18 @@ function addRows(){
 }
 document.getElementById("addCardsBtn").onclick = () => addRows();
 
+
 /*
-    deck editing functions
+manages the deck selection popup
 */
 const selectionPopup = document.getElementById("backShadow");
+const popupHead = document.getElementById("popupHead");
 
 const editBtn = document.getElementById("editBtn");
 editBtn.onclick = ()=>{
     selectionPopup.style.display = "block";
+    popupHead.innerText = "Which deck would you like to edit?";
+
     loadTitles();
     document.getElementById("closePopup").onclick = () => {
         selectionPopup.style.display = "none";
@@ -98,9 +105,8 @@ editBtn.onclick = ()=>{
 }
 
 
-
 /*
-manages the deck selection popup
+    deck editing functions
 */
     const holderdiv = document.getElementById("deckSelectDiv");
 
@@ -156,4 +162,26 @@ async function loadDeck(id){
     }
 }
 
+/*error msg popup */
+function creationError(){
+    //load popup
+    selectionPopup.style.display="block"; 
+
+    //set up row
+    let row = document.createElement("div");
+    row.style.height = "fit-content";
+    row.style.backgroundColor = "transparent";
+    row.style.textAlign = "center";
+    let text = document.createElement("p");
+    text.innerText = "There's been a problem saving your deck. Make sure you have both a title and cards!";
+    row.appendChild(text);
+
+    popupHead.innerText="Not so fast!";
+    holderdiv.append(row);
+        
+    document.getElementById("closePopup").addEventListener('click', ()=>{ 
+        backShadow.style.display="none"; 
+        removeRows();
+    });
+}
 

@@ -44,8 +44,27 @@ async function getInput(){
             if(tdArray[i][0] != "")
                 cards.push(new Card(i,tdArray[i][0], tdArray[i][1]));
         }
+        if(titleIn.value != "" && cards != null && cards.length > 0){
+            const deck = new Deck(titleIn.value, descIn,cards, data.user.id);
+            return deck;
+        }
+        else{
+            creationError();
+        }
 
-        const deck = new Deck(titleIn.value, descIn,cards, data.user.id);
-        return deck;
     }
 }
+
+const popupdiv = document.getElementById("backShadow");
+/*error msg popup */
+function creationError(){
+    //load popup
+    popupdiv.style.display="block"; 
+        
+    document.getElementById("closePopup").addEventListener('click', ()=>{ 
+        popupdiv.style.display="none"; 
+    });
+}
+
+
+
