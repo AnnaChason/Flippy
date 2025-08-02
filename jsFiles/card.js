@@ -171,7 +171,6 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             this.struggle = [];
             this.main = [];
             this.knowCount = 0;
-            this.front = true;
             this.cycleIdx = 0;//how many cards from the main group have gone by, after 3 resets to 0 and a struggle card is shown
         }
         /*
@@ -206,28 +205,21 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
             unsavedChanges = true;
             this.showProgress();
         }
-        /*
-        displays the current card
-        param strictFront - if false it flips the card, if true, it puts the card on the front side
-
-        cTxtF.innerText = cards[currentCard].term;
-            cTxtB.innerText = cards[currentCard].definition;
-        */
+    
+        //displays the current card on front
         showCard(){
             if(flipped)
                 flipCard();
 
             cTxtF.innerText = this.currCar.term;
             cTxtB.innerText = this.currCar.definition;
-            this.front = true;
         }
 
         forward(){
             //if run out of cards in main and have some left in struggle, add to the score of struggle until half of them are in main.
-            //should probably come up with a better way to handle this later.
             if(this.main.length == 0){
-                //should do some message
                 if(this.struggle.length > 0){
+                    scoreAdjust();
                     while(this.main.length < Math.floor(this.struggle.length/2)){
                         for(let i = 0; i< this.struggle.length; i ++){
                             this.updatePlacement(true,this.struggle[i]);
@@ -236,6 +228,7 @@ const accentDark = getComputedStyle(document.documentElement).getPropertyValue('
                 }
                 else{
                     //restart?
+                    end();
                     for(let i = 0; i<cards.length; i++){
                         cards[i].score = 5;
                         this.main.push(cards[i]);
@@ -365,6 +358,9 @@ load most recently created deck
             deckLength.innerText = cards.length;
             selectStrat(0);
         }
+        else{
+            welcome();
+        }
 
     }
 
@@ -468,15 +464,89 @@ async function saveCards(){
         unsavedChanges = false;
         cards.sort((a, b) => a.num - b.num);
 
-        const { error } = await supabase
-        .from('deck')
-        .update({ cards: cards }) // assumes cards is json
-        .eq('id', currDeck.id);
+        if(cards != null && cards.length >0){
+            const { error } = await supabase
+            .from('deck')
+            .update({ cards: cards }) // assumes cards is json
+            .eq('id', currDeck.id);
 
-        if (error) {
-            console.error("Autosave error:", error.message);
-        } else {
-            console.log("Progress saved at", new Date().toLocaleTimeString());
+            if (error) {
+                console.error("Autosave error:", error.message);
+            } else {
+                console.log("Progress saved at", new Date().toLocaleTimeString());
+            }
         }
     }
 }
+
+/*
+popup alerts
+*/
+    function createMsg(msg){
+        //load popup
+        backShadow.style.display="block"; 
+        popupdiv.display="block";
+
+        let row = document.createElement("div");
+        row.style.height = "fit-content";
+        row.style.backgroundColor = "transparent";
+        row.style.textAlign = "center";
+        let text = document.createElement("p");
+        text.innerText = msg;
+        row.appendChild(text);
+        return row;
+    }
+
+    /*
+    message for when opening flippy for the first time
+    */
+    function welcome(){
+        popupHead.innerText="Welcome to Flippy!!";
+        popupdiv.append(createMsg("You haven't created any flashcard decks yet, so head over to the create button on the right to make one! \n ->"));
+        
+        document.getElementById("closePopup").addEventListener('click', ()=>{ 
+            backShadow.style.display="none"; 
+            
+            removeRows();
+        });
+    }
+
+    /*
+    message for when all cards end up in know section
+    */
+    function end(){
+        //load popup
+        backShadow.style.backgroundColor="#5C9B77";
+        backShadow.style.border = "3px solid #5C9B77";
+
+        popupHead.innerText="Good Work! You've mastered all your cards!";
+        popupdiv.append(createMsg("We'll now start you over to keep studying, or you can choose a different deck to study."));
+        
+        document.getElementById("closePopup").addEventListener('click', ()=>{ 
+            backShadow.style.backgroundColor="#513A2A";
+            backShadow.style.border = "none";
+            backShadow.style.display="none"; 
+            
+            removeRows();
+        });
+    }
+
+    /*
+    message for when no cards are left in main deck but some are in struggling
+     */
+    function scoreAdjust(){
+        backShadow.style.backgroundColor="#B85656";
+        backShadow.style.border = "3px solid #B85656";
+
+        popupHead.innerText="Uh Oh! Looks like you've run out of cards in main";
+        popupdiv.append(createMsg("You still have cards left in struggling to study, so we're shifting some of the scores up a little. Nothing to worry about!"));
+        
+        document.getElementById("closePopup").addEventListener('click', ()=>{ 
+            backShadow.style.backgroundColor="#513A2A";
+            backShadow.style.border = "none";
+            backShadow.style.display="none"; 
+            
+            removeRows();
+        });
+    }
+
