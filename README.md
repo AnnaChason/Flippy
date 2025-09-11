@@ -27,3 +27,4 @@
    
 ## 🌐 Live Site
 [View the Website](https://annachason.github.io/Flippy/)
+- Flippy requires creating an account in order to use it
