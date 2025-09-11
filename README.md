@@ -21,6 +21,9 @@
   - **Dynamic Study** – tracks correct/incorrect answers and:
     - Repeats difficult cards more often
     - Removes mastered cards from the active pool
+
+## In Progress
+- Pre-login landing page
    
 ## 🌐 Live Site
 [View the Website](https://annachason.github.io/Flippy/)
