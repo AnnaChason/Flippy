@@ -22,9 +22,12 @@
     - Repeats difficult cards more often
     - Removes mastered cards from the active pool
 
-## In Progress
-- Pre-login landing page
+## Reflection
+This project was a really useful experience for improving my web development skills and learning to use a relational database, although now I would do several things differently. If I were to redo this project, I would improve the aesthetics and clarity of the UI, allow users to use the site without being logged in, and use React.js.
    
 ## 🌐 Live Site
 [View the Website](https://annachason.github.io/Flippy/)
+
+Please Note:
 - Users must create an account to use Flippy
+- Database is not always active due to Supabase restraints
